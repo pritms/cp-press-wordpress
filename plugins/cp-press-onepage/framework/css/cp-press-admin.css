@@ -1,0 +1,22 @@
+.wp-media-buttons-icon {
+    background: url('../../../../../wp-admin/images/media-button.png') no-repeat top left;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: text-top;
+    margin: 0 2px;
+}
+
+.ui-widget{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13px;
+}
+
+section.cp_content_type{
+	margin-top: 10px;
+}
+
+header.cp_content_column{
+	margin-bottom: 10px;
+}
+

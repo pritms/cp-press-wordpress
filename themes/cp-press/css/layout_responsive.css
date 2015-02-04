@@ -1,0 +1,1489 @@
+    /*responsive CSS*/
+   
+    .iDevices body,
+    .iDevices p,
+    .iDevices div,
+    .iDevices h1,
+    .iDevices h2,
+    .iDevices h3,
+    .iDevices h4,
+    .iDevices h5,
+    .iDevices h6 {
+		-webkit-text-size-adjust: none;
+    }
+	
+
+
+    	.wpchopIsotope .wpchop-menu-main{
+			position:relative;
+			left:-50%;
+			padding:0 !important;
+			margin-bottom:15px;
+		}		
+
+		.wpchopIsotopeFilter.wpchop-menu > li > a, .cp-button a, .cp-form-button{
+			padding:8px 12px !important;
+			border:1px solid #eee;
+			background-color:white;
+			font-size:11px;
+			color:#999 !important;
+			margin:0 2px;
+			text-transform:uppercase;
+		}
+
+
+		.wpchopIsotopeFilter.wpchop-menu > li{
+			padding:0 !important;
+			margin:0;
+		}
+		
+		.wpchopIsotopeFilter.wpchop-menu > li:hover{
+			border:0;
+		}
+		
+		.wpchopIsotopeFilter.wpchop-menu > li > a:hover, .cp-button a:hover, .cp-form-button:hover{
+			background-color: #00b5a5;
+			border-color: #58595b;
+			color: #fff !important;
+			text-decoration: none;
+		}
+
+
+		/*.wpchopIsotopeFilter.wpchop-menu > li > a:hover{
+			background-color:transparent !important;
+			border-color:#333;
+			color:#333 !important;
+		}*/
+
+		.wpchop-style-dark .wpchopIsotopeFilter.wpchop-menu > li > a:hover{
+			border-color:#fff;
+			color:#fff !important;
+		}
+
+		.wpchopIsotopeFilter.wpchop-menu > li > a.active{
+			background-color: #18365b !important;
+			border-color: #447cbf !important;
+			color: #fff !important;
+		}
+
+		.wpchop-style-dark .wpchopIsotopeFilter.wpchop-menu > li > a.active{
+			background-color: #18365b !important;
+			border-color: #447cbf !important;
+			color: #fff !important;
+		}
+		
+		
+	/*MEDIA QUERIES*/
+
+	/*apply filter styles only when desktop menu*/
+	@media (min-width: 1024px) {
+		/*centering the filter keywords*/
+		.wpchopIsotope > .filter > div{
+			float:left;
+			clear:both;
+			width:auto;
+			position:relative;
+			left:50%;
+		}
+		
+		.ios .wpchopIsotope .wpchop-menu-main{
+			left: -50%;
+		}
+
+	}
+
+	/*apply sticky styles only above 1024px IPAD LANDSCAPE*/
+
+	@media (min-width: 1024px) {
+		.ios ul.wpchop-menu-slider{
+			padding: 10px;
+
+		}
+		
+		.mobile .cp-columns{
+			margin-top: 30px;
+		}
+		
+		.ios .wpchop-container, .ios .cp-container, .ios .menu-splash-menu-container, .ios .menu-container, .ios .cp-calendar{
+			padding-left: 15px;
+			padding-right: 15px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.ios .wpchop-menu-main{
+			padding-right:0;
+			padding-top: 18px;
+		}
+		
+		.ios #home .cp-splash-menu, .page .cp-splash-menu{
+			height: 130px;
+		}
+		
+		.ios .page .static-container{
+			padding-bottom: 140px;
+		}
+	
+		.ios ul.wpchop-menu-slider > li{
+			float: left;
+			text-transform: uppercase;
+			margin-left: 52px;
+
+		}
+	
+		.ios ul.wpchop-menu-slider li a{
+			color: #96a2b0;
+		}
+
+		.ios ul.wpchop-menu-slider li a:hover{
+			color: white;
+			text-decoration: none;
+		}
+		
+		.post-thumbnail-left img{
+			width: 430px;
+			margin-left: 40px;
+		}
+
+		.desktop .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu > li > a:hover,
+		.wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu > li.active > a{
+			color:#444;
+		}
+			
+		.sticky-header .wpchop-menu-sticky.wpchop-animated .wpchop-container{
+			-webkit-transition: all .3s ease-out;
+			-moz-transition: all .3s ease-out;
+			-o-transition: all .3s ease-out;
+			transition: all .3s ease-out;
+		}
+
+		.sticky-header .wpchop-menu-sticky.wpchop-menu-over .wpchop-container{
+			margin-top: 0px !important;
+		}
+
+		.sticky-header .wpchop-menu-sticky{
+			position:fixed;
+			top:0;
+			z-index:2000;
+		}
+		
+		/*ios and greater resolution than 1023*/
+		.ios .wpchop-menu-sticky{
+			position:fixed !important;
+		}
+		
+		.mobile .cp-columns{
+			margin-top: 30px;
+		}
+	}
+
+
+
+   	/*general header settings on all resolutions with mobile menu*/
+
+	@media (max-width: 1023px) {
+		.ios ul.wpchop-menu-slider{
+			padding: 10px;
+
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+	
+		.ios ul.wpchop-menu-slider > li{
+			float: left;
+			text-transform: uppercase;
+			margin-left: 52px;
+
+		}
+	
+		.ios ul.wpchop-menu-slider li a{
+			color: #96a2b0;
+		}
+
+		.ios ul.wpchop-menu-slider li a:hover{
+			color: white;
+			text-decoration: none;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+		
+		.wpchop-menu-sticky{
+			top:0;
+			width:100%;
+		}
+
+		.ios .wpchop-header-transparent .wpchop-menu-sticky .wpchop-menu-main .menu-toggle{
+			opacity:0;
+		}
+
+		.ios .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu-sticky .wpchop-menu-main .menu-toggle{
+			opacity:1;
+		}
+		
+		
+		
+		
+		/*remove sticky header*/
+		.mobile .wpchop-menu-sticky{
+			position:relative !important;
+			opacity:1;
+			background-color:rgba(255,255,255,1);
+		}
+
+	    .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu > li> a{
+	    	color:#fff;
+	    }
+
+	    .mobile .wpchop-header-transparent .wpchop-menu-sticky{
+	    	background-color:#fff;
+	    }
+
+	    .wpchop-header-transparent .wpchop-menu-main,
+	    .wpchop-menu-main {
+	    	padding-bottom:0px;
+	    }
+		
+		.wpchop-menu-sticky .logo,
+	    .wpchop-header-transparent .wpchop-menu-sticky .logo{
+	    	top:0;
+	    }
+
+		.wpchop-menu.wpchop-menu-mobile-active, .wpchop-filter-mobile-active{
+			z-index:1000;
+		}
+
+		header > div{
+			position:static;
+		}
+
+		.search-wrap{
+			position:absolute;
+			right:50px;
+			top:0px;
+			z-index:2010;
+			padding-top:25px;
+		}
+
+
+		.search-wrap button{
+			display:block;
+		}
+
+		.search-wrap a{
+			display:none;
+		}
+
+		.search-wrap input[type=text]{
+			display:block;
+			opacity:1;
+			visibility:visible;
+			width:120px;
+			background-color:#f6f6f6;
+		}
+
+
+		/*wpml menu item*/
+		
+		.wpchop-menu li.menu-item-pe-wpml > a:not(:only-child):after{
+			display:none;
+		}
+
+		.wpchop-menu > li.menu-item-pe-wpml{
+			overflow:hidden;
+			border-left:none;
+			padding-bottom:20px;
+			padding-left:5px;
+			margin-left:24px;
+		}
+
+		.desktop .wpchop-menu > li.menu-item-pe-wpml:hover, .wpchop-menu > li.menu-item-pe-wpml.active{
+			border-bottom:none;
+		}
+
+		.menu-item-pe-wpml .wpchop-wpml-flag{
+			float:left;
+			margin-right:20px;
+			padding-top:3px;
+			padding-bottom:3px !important;
+		}
+
+		.menu-item-pe-wpml .wpchop-wpml-flag:last-child{
+			margin-right:0;
+		}
+
+	}
+
+	
+	/*highlight menu item bootstrap fix*/
+	.mobile .dropdown-menu .active > a, 
+	.nobile .dropdown-menu .active > a:hover{
+		color:#fff;
+	}
+
+	/*ensure sticky header on mobile devices provided there is suffieient height
+	tablets in portrait mode will therefores have sticky header once screen height is 768px and up*/
+	@media (min-height: 768px) {
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+		
+		.ios .wpchop-menu-sticky{
+			position:fixed !important;
+		}
+
+		.ios .wpchop-header-transparent .wpchop-menu-sticky{
+	    	background-color:rgba(255,255,255,0);
+	    }
+
+	    .ios .wpchop-header-transparent .wpchop-menu-sticky .logo{
+	    	opacity:0;
+	    }
+
+	    .ios .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu-sticky{
+	    	background-color:rgba(255,255,255,1);
+	    }
+
+	    .ios .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu-sticky .logo{
+	    	opacity:1;
+	    }
+		
+		
+	}
+	
+	/*iphone5*/
+	@media (max-width: 568px){
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		.ios .wpchop-header-transparent .wpchop-menu-sticky .wpchop-menu-main .menu-toggle{
+			opacity:1;
+		}
+	}
+
+	/*remove sticky header on andorid*/
+	.android .wpchop-menu-sticky,
+	.android .wpchop-header-transparent .wpchop-menu-sticky,
+	.android .wpchop-header-transparent.wpchop-header-scrolled .wpchop-menu-sticky {
+		position:absolute !important;
+		z-index:2000;
+	}
+
+	.android .wpchop-header-transparent .wpchop-menu-sticky .logo{
+    	opacity:1 !important;
+    }
+
+    .android .wpchop-header-transparent .wpchop-menu-sticky{
+    	background-color:rgba(255,255,255,1) !important;
+    }
+	
+
+
+
+	/*iPad portrait & landscape*/
+    /*----------------------------------------------------------------------*/
+    @media (min-width: 768px) and (max-width: 1023px) {
+
+		.wpchop-container, .cp-container, .menu-splash-menu-container, .menu-container, .cp-calendar{
+			padding-left: 15px;
+			padding-right: 15px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		.cp-splash-menu ul > li{
+			float: left;
+			text-transform: uppercase;
+			margin-left: 10px;
+			width: 70px;
+			height: 50px;
+			background: url('../img/icon_menu_empty.png') no-repeat top center;
+		}
+		
+		.cp-splash-menu ul li a{
+			font-size: 12px;
+			padding-top: 50px;
+		}
+		
+		#home .cp-splash-menu, .page .cp-splash-menu{
+			height: 100px;
+		}
+		
+		.ios .page .static-container{
+			padding-bottom: 110px;
+		}
+		
+		.ios ul.wpchop-menu-slider{
+			padding: 10px;
+
+		}
+	
+		.ios ul.wpchop-menu-slider > li{
+			float: left;
+			text-transform: uppercase;
+			margin-left: 30px;
+
+		}
+	
+		.ios ul.wpchop-menu-slider li a{
+			color: #96a2b0;
+		}
+
+		.ios ul.wpchop-menu-slider li a:hover{
+			color: white;
+			text-decoration: none;
+		}
+		
+		.post-thumbnail-left img{
+			width: 430px;
+			margin-left: 40px;
+		}
+
+		
+		#slider .bottom{
+			bottom: 40%;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+
+		section.wpchop-main-section > .wpchop-block{
+			max-width:748px;
+		}
+	
+		/*sidebar show*/
+        aside.sidebar{
+            display:block !important;
+        }
+		
+		/*adjust spacers*/
+		.inner-spacer-left{
+			margin-left:12px;
+		}
+		
+		.inner-spacer-left-lrg{
+			margin-left:36px;
+		}
+		
+		.inner-spacer-right{
+			margin-right:12px;
+		}
+		
+		.inner-spacer-right-lrg{
+			margin-right:36px;
+		}
+		
+		/*header*/
+		
+		.info-bar .phone,
+		.info-bar .email{
+			font-size:11px;
+		}
+
+		#lang_sel ul ul{
+			width:149px;
+		}
+
+		#lang_sel li{
+			width:149px;
+		}
+
+
+		.info-bar .sm-icon-wrap a{
+			width:18px;
+			margin-top:2px;
+		}
+
+		.info-bar .sm-icon-wrap a i{
+			font-size:18px;
+		}
+
+
+		
+		.tagline-home h4,
+		.row-lower h4{
+			font-size:22px
+		}
+		
+		p.intro.large{
+			font-size:14px;
+		}
+
+		/*navigation*/
+		.wpchop-menu-main{
+			padding-right:0;
+			padding-top: 18px;
+		}
+
+		/*search btn*/
+		.search-btn{
+			display:none;
+		}
+		
+		/*footer*/
+		
+		.action-img{
+			width:218px;
+		}
+		
+		.action h5{
+			font-size:16px;
+		}
+		
+		/*forms*/
+		
+		.bay h3,
+		.bay h6{
+			margin-left:120px;
+		}
+		.form-horizontal .controls{
+			margin-left:120px;
+		}
+		
+		.form-horizontal .control-label {
+			width:100px;
+		}
+		
+		.widget_newsletter input[type=text]{
+			width:72px;
+		}
+		
+		/*widgets*/
+		.widget_flickr .flickr a{
+			width:52px;
+			height:52px;
+			overflow:hidden;
+		}
+		
+		.widget_search input[type="text"] {
+			width: 152px;
+		}
+		
+		.widget_info .map{
+			width:120px;
+		}
+		
+		cite .accent{
+			margin-left:0;
+		}
+
+		.shareBox .shareButton{
+			margin-left:10px;
+		}
+
+		/*call to action*/
+		.action .contour-btn.pull-right,
+		.action .outline-btn.pull-right{
+			float:left;
+			clear:both;
+			margin:10px 0;
+		}
+
+
+		/*stats block*/
+		.wpchop-view-layout-class-stat .wpchop-stat{
+			padding-left:15px;
+		}
+		
+		
+	}
+   
+	/*small tablet*/
+    /*----------------------------------------------------------------------*/
+    @media (max-width: 767px) {
+        
+        /*cancel body padding on mobile*/
+        body {
+            padding-left: 0;
+            padding-right: 0;
+        }
+		
+		.wpchop-col-media{
+			margin-bottom: 30px;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+
+         .wpchop-container, .cp-container, .menu-splash-menu-container, .menu-container, .cp-calendar{
+			padding-left: 15px;
+			padding-right: 15px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+		
+		
+
+        section.wpchop-main-section > .wpchop-block{
+			max-width:420px;
+		}
+		
+		/*sidebar hide*/
+        .sidebar{
+            display:none !important;
+        }
+		
+		/*cancel inner spacers*/
+		.inner-spacer-left,
+		.inner-spacer-left-lrg,
+		.inner-spacer-right,
+		.inner-spacer-right-lrg{
+			margin-left:0;
+			margin-right:0;
+		}
+		
+		.info-bar .tagline{
+			display:none;
+		}
+
+		/*navigation*/
+		.wpchop-menu-main{
+			padding-right:0;
+			padding-top: 15px;
+		}
+
+		/*search btn*/
+		.search-btn{
+			display:none;
+		}
+
+		/*tagline*/
+		
+		.tagline-home h4{
+			margin-bottom:0;
+		}
+		
+		.tagline-home .question h4{
+			margin-bottom:30px;
+		}
+		
+		.tagline h1{
+			font-size:26px;
+		}
+		
+		.tagline h2{
+			font-size:24px;
+			margin-left:0;
+		}
+		
+		
+		.row-lower .intro{
+			margin-bottom:15px;
+		}
+		
+		/*action block*/
+		
+		
+		.action .action-img > img{
+			position:relative;
+			clear:both;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:25px;
+			margin-bottom:0;
+			padding-bottom:0;
+		}
+		
+		/*footer*/
+		
+		.footer .widget{
+			margin-bottom:30px;
+		}
+		
+		.foot-lower .social-media a{
+			float:left;
+			margin-left:0;
+			margin-right:8px;
+		}
+		
+		.widget_info .map {
+			width:200px;
+		}
+		
+		.footer .widget_newsletter input[type=text]{
+			width:310px;
+		}
+
+		.foot-lower .pull-right{
+			float:left;
+		}
+
+		.foot-lower > div > div > div > div:last-child {
+			padding-top: 0px;
+		}
+		
+		/*staff*/
+		.mugshot{
+			margin-bottom:20px;
+		}
+		
+		.clients img{
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.post-pagination a{
+			/*width:100% !important;*/
+			border:none;
+		}
+		
+		.post-pagination a.next-post{
+			/*border-top:1px solid white;*/
+		}
+		
+		.shareBox{
+			height:auto;
+		}
+
+		.shareBox h6{
+			float:none;
+		}
+
+		.shareBox .shareButton{
+			float:none;
+			margin-left:0px;
+		}
+		
+		/*portfolio/project*/
+		
+		.project-single-col .info{
+			margin-bottom:30px;
+		}
+
+		.featured-project .description{
+			float:left;
+		}
+		
+		.featured-project .description,
+		.project-intro{
+			border-left:none;
+		}
+		
+		.project-intro{
+			margin-top:20px;
+		}
+
+		.staff-member .small-profile{
+			margin-bottom:60px;
+		}
+		
+		.form-horizontal .controls{
+			margin-left:80px;
+		}
+		
+		.newsletter .controls{
+			margin-left: 145px;
+		}
+		
+		.newsletter input[type=text]{
+			width:200px;
+		}
+		
+		.form-horizontal .control-label {
+			width:60px;
+		}
+		
+		.newsletter .control-label {
+			width:120px;
+			text-align:left;
+		}
+		
+		.newsletter form{
+			margin-left:5px;
+			margin-bottom:35px;
+			margin-top:25px;
+		}
+		
+		.bay h3,
+		.bay h6{
+			margin-left:80px;
+		}
+		
+		.post .post-image{
+			overflow:hidden;
+		}
+		
+		.result-title p{
+			margin-bottom:10px;
+		}
+		
+		.result-title .more-link{
+			margin-bottom:20px;
+			display:block;
+		}
+		
+		/*pricing tables*/
+		
+		.five-col .col,
+		.four-col .col,
+		.three-col .col,
+		.two-col .col{
+			width:50%;
+		}
+
+		/*call to action*/
+		.action .contour-btn.pull-right,
+		.action .outline-btn.pull-right{
+			float:left;
+			clear:both;
+			margin:10px 0;
+		}
+
+		.pagination ul > li{
+			margin-bottom:5px;
+		}
+
+		/*stats block*/
+		
+
+		.wpchop-view-layout-class-stat .wpchop-stat{
+			padding-left:0px;
+		}
+
+		/*home column*/
+
+		/*services block*/
+
+		.wpchop-view-layout-class-services .wpchopWrap .service-item{
+			border-left:none;
+		}
+		
+	}
+	
+	
+	/*iPhone landscape*/
+    /*----------------------------------------------------------------------*/
+    @media (max-width: 480px) {
+        
+		.ios .wpchop-header-transparent .wpchop-menu-sticky .wpchop-menu-main .menu-toggle{
+			opacity:1;
+		}
+		
+		.wpchop-col-media{
+			margin-bottom: 30px;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+
+       .wpchop-container, .cp-container, .menu-splash-menu-container, .menu-container, .cp-calendar{
+			padding-left: 15px;
+			padding-right: 15px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+
+        .wpchop-view-layout-class-testimonials .wpchopWrap > div > div{
+			margin-left:0px !important;
+			margin-right:0px !important;
+		}
+		
+		.footer .widget_newsletter input[type=text]{
+			width:350px;
+		}
+		
+		.form-horizontal .controls{
+			margin-left:0;
+		}
+		
+		.form-horizontal .control-label {
+			width:100%;
+		}
+		
+		.bay h3,
+		.bay h6{
+			margin-left:0;
+		}
+		
+		/*project pagination*/
+		
+		.project-pagination a{
+			border:none;
+			font-size:11px;
+			height:auto;
+			padding:1px 3px;
+			line-height:20px;
+		}
+		
+		.project-pagination li.selected a,
+		.project-pagination a:hover{
+			background-color:transparent;
+			border-bottom:1px solid #d95137;
+			color:#333;
+		}
+		
+		/*action bar*/
+		.action .buttons a{
+			margin-bottom:15px;
+		}
+		
+		.action .buttons a:last-child{
+			margin-bottom:0;
+		}
+		
+		.widget_info .map{
+			width:160px;
+		}
+		
+		/*pricing tables*/
+		
+		.five-col .col,
+		.four-col .col,
+		.three-col .col,
+		.two-col .col{
+			width:100%;
+		}
+
+		/*call to action*/
+		.action .contour-btn,
+		.action .outline-btn{
+			margin:10px 0;
+		}
+
+
+      
+	}
+	
+	
+	
+	/*iPhone portrait*/
+    /*----------------------------------------------------------------------*/
+    @media (max-width: 479px) {
+		
+		#slider .bottom{
+			bottom: 10%
+		}
+		
+		#slider .top{
+			top: 5%;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		#slider h1:after{
+			width: 320px;
+		}
+		
+		.wpchop-col-media{
+			margin-bottom: 30px;
+		}
+		
+		.wpchopIsotope .wpchop-menu-main{
+			left: 0;
+		}
+		
+        .wpchop-container, .cp-container, .menu-splash-menu-container, .menu-container, .cp-calendar{
+			padding-left: 15px;
+			padding-right: 15px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.footer .widget_newsletter input[type=text]{
+			width:170px;
+		}
+		
+		.post .post-meta{
+			width:198px
+		}
+		
+		.post-meta .categories {
+			margin-left:0;
+			clear:left;
+		}
+
+		.sm-icon-wrap{
+			margin-left:0 !important;
+			padding-top:5px;
+		}
+		
+		#dynamic-menu .wpchop-menu-main .menu-toggle{
+			margin-left: 40px;
+		}
+	}
+	
+	/* MENU SMARTPHONE */
+	
+	
+	@media (max-width: 767px){
+		#dynamic-menu{
+			position:fixed;
+			top:0;
+			box-shadow: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		.smartphone .wpchop-menu-sticky{
+			background-color:#18365b;
+		}
+		.wpchop-menu ul {
+            -webkit-transform: translateZ(0px);
+        }  
+
+		.wpchop-menu-main{
+			position: static;
+			display:block;
+			width:100%;
+			min-width:320px;
+			padding:0;
+		}
+
+		.wpchop-menu.wpchop-menu-mobile-active, .wpchop-filter-mobile-active {
+			-webkit-transition: all .2s ease-out;
+			-moz-transition: all .2s ease-out;
+			-o-transition: all .2s ease-out;
+			transition: all .2s ease-out;
+		}
+
+		.menu-toggle{
+			display:block;
+		}
+
+		.wpchop-menu .dropdown-menu > li > a.wpchop-menu-back{
+	    	display:block !important;
+	    	padding-left:20px !important;
+	    }
+
+	    .wpchop-menu-back:before{
+			position: absolute;
+			top: 0;
+			left:0;
+			speak: none;
+		}
+
+		.wpchop-menu{
+			display:none;
+			visibility:hidden;
+			float:right;
+			clear:both;
+			width:100%;
+			max-width:1024px;
+			min-width: 320px;
+			margin:0;
+			margin-top:0;
+			opacity: 0;
+			position:absolute;
+			top:100%;
+			right:0;
+			-webkit-transform: translateZ(0px);
+		}
+		
+		#menu_filters{
+			top:auto;
+		}
+
+		.wpchop-menu li{
+			margin-left:0;
+		}
+
+		.wpchop-menu.wpchop-menu-mobile-active, .wpchop-filter-mobile-active {
+			display:block;
+			opacity:1;
+			visibility:visible;
+		}
+
+		/*menu toggle button*/
+		.wpchop-menu-main .menu-toggle, .wpchop-menu-main .menu-toggle-filters{
+			width:45px;
+			height:45px;
+			display:block;
+			float:right;
+			margin-top: 0px;
+		}
+		
+		#dynamic-menu .wpchop-menu-main .menu-toggle{
+			float: left;
+		}
+		
+		.wpchop-menu-main .menu-toggle-filters{
+			float: none;
+			margin-left: 62px;
+			
+		}
+
+		.wpchop-menu-main .menu-toggle > b, .wpchop-menu-main .menu-toggle-filters > b{
+			width:45px;
+			text-align:center;
+			display:block;
+		}
+
+		/*hide the drop arrows from desktop menu*/
+		.wpchop-menu > li > a > b,
+		.wpchop-menu .dropdown-menu b{
+			display:none;
+		}
+		
+		/*top most menu items*/
+		.wpchop-menu > li{
+			position:static !important;
+			left:0 !important;
+			display:block;
+			float:none !important;
+			clear:both !important;
+			right:auto !important;
+			top:0 !important;
+			visibility:visible;
+			max-width:748px;
+			margin-left:auto !important;
+			margin-right:auto !important;
+		}
+
+		/*submenu items*/
+		.wpchop-menu .dropdown-menu,
+		.wpchop-menu .dropdown-menu .sub-menu
+		{
+			position:absolute !important;
+			display:block;
+			float:none !important;
+			clear:both !important;
+			top:0;
+			width:100%;
+			left:100% !important;
+			right:auto;
+			visibility:hidden;
+			margin-top:-2px;
+		}
+
+		.wpchop-menu .dropdown-menu.wpchop-menu-mobile-on,
+		.wpchop-menu .dropdown-menu .sub-menu.wpchop-menu-mobile-on
+		{
+			visibility:visible;
+			z-index: 101;
+		}
+		
+		.wpchop-menu .dropdown-menu.sub-menu > li,
+		.wpchop-menu .dropdown-menu > li{
+			max-width:748px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+
+		.wpchop-menu .dropdown-menu > li{
+			position:static !important;
+			margin-left: auto !important;
+		}
+
+		/*font styles in mobile menu*/
+		.wpchop-menu li a{
+			display: block;
+			position: relative;
+			padding: 20px 0;
+		}
+
+		/*main menu item padding in mobile*/
+		.wpchop-menu > li > a,
+		.wpchop-menu .dropdown-menu li > a{
+			padding:20px 0 !important;
+		}
+		
+		/*mobile sub menu marker icons*/
+		.wpchop-menu li > a:not(:only-child):after{
+			position: absolute;
+			top: 0;
+			right:18px;
+			speak: none;
+		}
+
+		/*hide submenues*/
+		.wpchop-menu li .submenu {
+			padding-left:20px;
+			margin-left:0;
+		}
+
+	    /*mega menu embedded content hide*/
+	    .wpchop-menu-mega-embedded-content{
+	    	display:none;
+	    }
+	}
+	
+
+	/*mobile menu on small tablets*/
+	@media (max-width: 767px) {
+		
+		.wpchop-menu > li{	
+			max-width:420px;
+		}
+
+		.wpchop-menu .dropdown-menu.sub-menu > li,
+		.wpchop-menu .dropdown-menu > li{
+			max-width:420px;
+		}
+	}
+
+
+	/*mobile menu on iphone landscape*/
+	@media (max-width: 480px) {
+        
+		.wpchop-menu > li{	
+			max-width:440px;
+		}
+
+		.wpchop-menu .dropdown-menu.sub-menu > li,
+		.wpchop-menu .dropdown-menu > li{
+			max-width:440px;
+		}
+    }
+
+
+    /*mobile menu on iphone*/
+	@media (max-width: 479px) {
+        
+		.wpchop-menu > li{	
+			max-width:280px;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+
+		.wpchop-menu .dropdown-menu.sub-menu > li,
+		.wpchop-menu .dropdown-menu > li{
+			max-width:280px;
+		}
+    }
+
+	/*end mobile menu*/
+
+	/*fix list style when view inserted by shortcode (.wpchop-wp-default style override)*/
+	.wpchop-menu li {
+		list-style: none;
+	}
+	
+	@media (max-width: 767px) {
+		
+		.wpchop-menu{
+			background-color:#18365b;
+		}
+		
+		.cp-columns{
+			margin-top: 30px;
+		}
+		
+		#menu_filters{
+			background-color: transparent;
+		}
+		
+		#menu_filters li.static-nav-mobile{
+			background-color: #fff;
+		}
+		
+		#menu_filters li.static-nav-mobile.current{
+			border: 0;
+		}
+
+		.wpchop-menu .dropdown-menu li > a.wpchop-menu-back{
+	    	font-family: 'Open Sans', arial, sans-serif;
+	    	font-weight:400;
+	    	color:#fff;
+	    }
+
+	    .wpchop-menu-back:before{
+			line-height: 59px;
+			font-size:16px;
+			font-weight:600;
+			font-family: 'entypo-icon-font';
+			-webkit-font-smoothing: antialiased;
+			content: "\e761";
+		}
+
+		/*menu toggle button*/
+		.wpchop-menu-main .menu-toggle{
+			background-color:#fff;
+			color:#18365b;
+		}
+		
+		.wpchop-menu-main .menu-toggle-filters{
+			border: 1px solid #eee;
+			background-color: transparent;
+			color: #999;
+		}
+
+		.wpchop-menu-main .menu-toggle > b, .wpchop-menu-main .menu-toggle-filters > b{
+			font-size:30px;
+			line-height:44px;
+			margin-top: 5px;
+		}
+		
+		.wpchop-menu-main .menu-toggle-filters > b{
+			margin-top: 7px;
+		}
+
+		.desktop .wpchop-menu-main .menu-toggle:hover > b, .desktop .wpchop-menu-main .menu-toggle-filters:hover > b{
+			color:#fff;
+
+		}
+		
+		/*top border on menus in mobile*/
+		.wpchop-menu,
+		.wpchop-menu .dropdown-menu,
+		.wpchop-menu .dropdown-menu .sub-menu{
+			border-top:2px solid #d2dbe4;
+
+		}
+		
+		#menu_filters{
+			border-top: 0;
+		}
+		
+		/*font styles in mobile menu*/
+		.wpchop-menu li a{
+			font-size: 14px;
+			line-height: 20px;
+			font-weight: 400;
+			color: #fff;
+			outline: none;
+		}
+
+		.wpchop-menu .dropdown-menu li > a{
+			color:#ccc;
+		}
+
+		
+		/*mobile sub menu marker icons*/
+		.wpchop-menu li > a:not(:only-child):after{
+			line-height: 57px;
+			font-weight:700;
+			font-size:20px;
+			font-family: 'entypo-icon-font';
+			-webkit-font-smoothing: antialiased;
+			content: "\e762";
+		}
+
+		.wpchop-menu li.wpchop-menu-mega-embedded > a:after{
+			content:"";
+		}
+
+		.wpchop-menu li a:hover{
+			text-decoration: none;
+			background-color:transparent;
+		}
+		
+
+		.desktop .wpchop-menu > li > a:hover{
+			color:#ccc !important;
+		}
+
+		.wpchop-menu li a.active{
+			color:#fff;
+
+		}
+
+		/*remove drop shadows*/
+		.wpchop-menu-mega > ul,
+		.wpchop-menu .dropdown-menu{
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			box-shadow: none;
+		}
+
+		.wpchop-menu > li > a{
+			font-family: 'Open Sans', arial, sans-serif;
+			font-weight:400;
+			color:#fff;
+		}
+		
+		/*adjust font sizes in mobile sub menus*/
+		.wpchop-menu .dropdown-menu li > a,
+		.wpchop-menu .subtitle{
+			font-size:14px;
+		}
+		
+		.wpchop-menu > li > a{
+			font-size:14px;
+		}
+
+		.wpchop-menu > li.dropdown > a{
+			font-weight:400;
+		}
+	
+		/*reset item hover bg on mobile menu*/
+		.desktop .wpchop-menu .dropdown-menu > li:hover {
+			background-color:transparent !important;
+		}
+
+		.wpchop-menu li.active > a,
+		.desktop .wpchop-menu li.active:hover > a{
+			color:#fff;
+
+		}
+		
+		/*lines between items*/
+		.wpchop-menu li a,
+		.desktop .wpchop-menu > li > a:hover, 
+		.wpchop-menu > li.active > a{
+			border-bottom:1px solid #d2dbe4;
+		}
+
+		.desktop .wpchop-menu > li:hover,
+		.wpchop-menu > li.active{
+			border:none;
+		}
+
+
+		.wpchop-menu > li:last-child > a,
+		.desktop .wpchop-menu > li:last-child > a:hover{
+			border-bottom:none;
+		}
+
+		.wpchop-menu-sticky{
+			background:transparent;
+		}
+	}
+   
+   
+  
+   /*overwrite largest media query because we will not use it*/
+   @media (min-width: 1200px) {
+		  
+		.container,
+		.navbar-static-top .container,
+		.navbar-fixed-top .container,
+		.navbar-fixed-bottom .container {
+			width: 940px;
+		}
+		
+		input,
+		textarea,
+		.uneditable-input {
+		  margin-left: 0;
+		}
+   }
+   
+   
+   
+   
+

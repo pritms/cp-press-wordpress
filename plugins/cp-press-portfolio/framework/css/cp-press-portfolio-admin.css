@@ -1,0 +1,47 @@
+table.portfolio tr.item td .thumb {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-size: auto 150px;
+    background-position: center;
+}
+
+table.portfolio tr.item td .thumb .delete-item {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: #EE2C2C;
+    color: white;
+    width: 16px;
+    height: 16px;
+    float: left;
+    text-align: center;
+    display: none;
+}
+
+table.portfolio tr.item td .thumb .item-details {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 0 5px;
+    text-transform: uppercase;
+    font-size: 9px;
+    opacity: 0.6;
+}
+
+table.portfolio tr.item td:hover .delete-item {
+    display: block;
+}
+
+ table tr.item input {
+	 width: 100%;
+    margin: 1px 0 10px 3px;
+}
+table tr.item textarea {
+    width: 100%;
+    height: 75px;
+    margin: 0 0 5px 0;
+}
+
