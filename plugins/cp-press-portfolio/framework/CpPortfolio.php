@@ -8,10 +8,11 @@ class CpPortfolio extends CpOnePage{
 		if(!file_exists(WPCHOP_BASE_FILE)){
 			wp_die('CPPortfolio Plugin requires CPPress plugin installed and activated');
 		}
+		self::dispatch('Admin', 'install');
 	}
 	
 	public static function start(){
-		self::dispatch('Admin', 'install');
+		//self::dispatch('Admin', 'install');
 		parent::$namespaces['CpPressPortfolio'] = 'cp-press-portfolio/framework/';
 		add_action('init', function(){
 			CpPortfolio::setup();

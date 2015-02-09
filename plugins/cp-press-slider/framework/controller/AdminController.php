@@ -31,7 +31,7 @@
 namespace CpPressSlider;
 import('controller.AdminSliderController');
 class AdminController extends \CpPressOnePage\Controller{
-	protected $uses = array('Settings');
+	protected $uses = array('Settings', 'SliderSettings');
 	
 	public function __construct() {
 		parent::__construct();
@@ -46,6 +46,15 @@ class AdminController extends \CpPressOnePage\Controller{
 			),
 		);
 		$this->Settings->save($sectionContentType);
+		$sliderSettings = array(
+			'center_logo' => '1',
+			'imgwidth' => '1920',
+			'imgheight' => '900',
+			'translatetime' => '5000',
+			'showtime' => '1000'
+		);
+		$this->SliderSettings->delete();
+		$this->SliderSettings->save($sliderSettings);
 	}
 	
 	public function admin_init(){

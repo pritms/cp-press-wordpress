@@ -52,7 +52,29 @@ class AdminController extends Controller{
 		);
 		$this->Settings->delete();
 		$this->Settings->save($sectionContentType);
-		
+		$headerSettings = array(
+			'menu_slider_offset' => '100',
+			'scroll_top_offset' => array(
+				'min' => '10',
+				'max' => '100',
+			),
+			'color' => array(
+				'menu_background' => array(
+					'color' => '#000000',
+					'usecss' => '1'
+				),
+				'menu_text_color' => array(
+					'color' => '#FFFFFF',
+					'usecss' => '1'
+				),
+				'menu_hover_line_color' => array(
+					'color' => '#00b5a5',
+					'usecss' => '1'
+				)
+			)
+		);
+		$this->HeaderSettings->delete();
+		$this->HeaderSettings->save($headerSettings);
 	}
 	
 	public function admin_init(){

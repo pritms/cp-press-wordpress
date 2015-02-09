@@ -36,7 +36,7 @@ class CpOnePage {
 	}
 
 	public static function start(){
-		self::dispatch('Admin', 'install');
+		//self::dispatch('Admin', 'install');
 		add_filter('show_admin_bar', '__return_false');
 		add_action('init', function(){
 			CpOnePage::setup();

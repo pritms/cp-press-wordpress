@@ -157,13 +157,12 @@ class AdminPortfolioController extends \CpPressOnePage\Controller{
 				for($j=0; $j<$portfolioData['item_per_row']; $j++){
 					if(isset($items[$k])){
 						$formatItems[$i][$j] = $items[$k];
-					}else{
-						$formatItems[$i][$j] = null;
 					}
 					$k++;
 				}
 			}
 			$this->assign('col', $this->fluidGrid[$portfolioData['item_per_row']]);
+			$this->assign('coffset', ceil($this->fluidGrid[$portfolioData['item_per_row']])/2);
 			$this->assign('thumb_size', $portfolioData['thumb']);
 			$this->assign('item_per_row', $portfolioData['item_per_row']);
 			$this->assign('item_box_width', 100/$portfolioData['item_per_row']);

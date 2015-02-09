@@ -31,7 +31,7 @@
 namespace CpPressPortfolio;
 import('controller.AdminPortfolioController');
 class AdminController extends \CpPressOnePage\Controller{
-	protected $uses = array('Settings');
+	protected $uses = array('Settings', 'PortfolioSettings');
 	
 	public function __construct() {
 		parent::__construct();
@@ -46,6 +46,13 @@ class AdminController extends \CpPressOnePage\Controller{
 			),
 		);
 		$this->Settings->save($sectionContentType);
+		$portfolioSettings = array(
+			'boxheight' => 'auto',
+			'boxslide' => '55',
+			'hideinfo' => '1'
+		);
+		$this->PortfolioSettings->delete();
+		$this->PortfolioSettings->save($portfolioSettings);
 	}
 	
 	public function admin_init(){

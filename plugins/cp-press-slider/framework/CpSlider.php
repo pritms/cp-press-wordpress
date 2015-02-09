@@ -8,11 +8,12 @@ class CpSlider extends CpOnePage{
 		if(!file_exists(WPCHOP_BASE_FILE)){
 			wp_die('CPSlider Plugin requires CPPress plugin installed and activated');
 		}
+		self::dispatch('Admin', 'install');
 	}
 	
 	public static function start(){
-		self::dispatch('Admin', 'install');
 		parent::$namespaces['CpPressSlider'] = 'cp-press-slider/framework/';
+		//self::dispatch('Admin', 'install');
 		add_action('init', function(){
 			CpSlider::setup();
 		});
