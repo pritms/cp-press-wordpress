@@ -41,9 +41,9 @@ class AssetsController extends Controller{
 	
 	public function styles(){
 		wp_enqueue_style('bootstrap');
-		wp_enqueue_style('bootstrap-responsive');
 		wp_enqueue_style('entypo-icon');
-		wp_enqueue_style('cp-press');
+		wp_enqueue_style('font-awesome');
+		wp_enqueue_style('animate');
 	}
 	
 	public function inline_styles(){
@@ -54,15 +54,8 @@ class AssetsController extends Controller{
 	
 	public function javascripts(){
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('browser');
-		wp_enqueue_script('mobile');
 		wp_enqueue_script('bootstrap');
-		wp_enqueue_script('transit');
-		wp_enqueue_script('lazyload');
-		wp_enqueue_script('scrollto');
-		wp_enqueue_script('nav');
 		wp_enqueue_script('cp-press');
-		wp_enqueue_script('cp-press-carousel');
 		wp_localize_script('cp-press', 'cpPressOptions', $this->javascriptOptions);
 	}
 }

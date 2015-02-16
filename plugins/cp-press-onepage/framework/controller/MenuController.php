@@ -67,6 +67,14 @@ class MenuController extends Controller{
 		$this->assign('menu_options', $this->defaults);
 		return $this->render();
 	}
+	
+	public function navbar($id){
+		$walker = new WalkerNavMenuCPPress($this->active, $id);
+		$walker->object = 'section';
+		$this->assign('walker', $walker);
+		$this->assign('menu', $id);
+		return $this->render();
+	}
 
 }
 
@@ -96,7 +104,6 @@ class WalkerNavMenuCPPress extends \Walker_Nav_Menu {
 
 	public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		if(!empty($this->filter) && in_array($item->post_title, $this->filter)) return;
-
 		if($item->object == $this->object && $args->theme_location == $this->menu){
 			switch($this->object){
 				case 'section':

@@ -8,10 +8,10 @@ class CpGallery extends CpOnePage{
 		if(!file_exists(WPCHOP_BASE_FILE)){
 			wp_die('CPGallery Plugin requires CPPress plugin installed and activated');
 		}
+		self::dispatch('Admin', 'install');
 	}
 	
 	public static function start(){
-		self::dispatch('Admin', 'install');
 		parent::$namespaces['CpPressGallery'] = 'cp-press-gallery/framework/';
 		add_action('init', function(){
 			CpGallery::setup();

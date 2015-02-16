@@ -8,10 +8,10 @@ class CpEvent extends CpOnePage{
 		if(!file_exists(WPCHOP_BASE_FILE)){
 			wp_die('CpEvent Plugin requires CPPress plugin installed and activated');
 		}
+		self::dispatch('Admin', 'install');
 	}
 	
 	public static function start(){
-		self::dispatch('Admin', 'install');
 		parent::$namespaces['CpPressEvent'] = 'cp-press-event/framework/';
 		add_action('init', function(){
 			CpEvent::setup();

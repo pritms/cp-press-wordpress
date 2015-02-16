@@ -12,8 +12,8 @@ class CpPortfolio extends CpOnePage{
 	}
 	
 	public static function start(){
-		//self::dispatch('Admin', 'install');
 		parent::$namespaces['CpPressPortfolio'] = 'cp-press-portfolio/framework/';
+		//self::dispatch('Admin', 'install');
 		add_action('init', function(){
 			CpPortfolio::setup();
 		});

@@ -47,6 +47,7 @@ class AdminController extends \CpPressOnePage\Controller{
 			),
 		);
 		$this->Settings->save($sectionContentType);
+		
 	}
 	
 	public function admin_init(){

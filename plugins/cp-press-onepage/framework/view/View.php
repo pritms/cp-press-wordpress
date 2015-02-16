@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package        WPChop.view
  * @subpackage View

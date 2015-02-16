@@ -44,3 +44,15 @@ table tr.slide textarea {
     height: 75px;
     margin: 0 0 5px 0;
 }
+
+#parallax-box, #bootstrap-box{
+	display: none;
+}
+
+.hide{
+	display: none;
+}
+
+.show{
+	display: block;
+}

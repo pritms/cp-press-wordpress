@@ -50,14 +50,15 @@ class IndexController extends Controller{
 		);
 		$sections = $this->Section->findAll($args);
 		$contentSections = array();
-		foreach(\Set::combine($sections->posts, '{n}.ID', '{n}.ID') as $post_id){
+		foreach(\Set::combine($sections->posts, '{n}.ID', '{n}.post_name') as $post_id => $post_name){
 			$content_cols = $this->PostMeta->find(array($post_id, 'cp-press-section-content'));
 			if(!empty($content_cols)){
 				foreach($content_cols as $col => $content){
 					if($content['type'] == 'Simple Text')
 						$content['type'] = 'simple_text';
 					$class = $content['ns'];
-					$contentSections[$post_id][$col] = $class::dispatch_template($content['controller'], $content['type'].'_view', array($content, $col));
+					$content['section_name'] = $post_name;
+					$contentSections[$post_id][$col] = $class::dispatch_template($content['controller'], strtolower($content['type']).'_view', array($content, $col));
 				}
 			}
 		}

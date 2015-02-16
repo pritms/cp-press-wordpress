@@ -34,20 +34,30 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 
 	protected $uses = array('Slider', 'Section', 'PostMeta', 'SliderSettings');
 
-	private $sliderOptions = array('show_title', 'show_content', 'show_logo', 'run_effect');
+	private $sliderOptions = array('show_title', 'show_content', 'show_logo', 'run_effect', 'type', 'sub_title', 'show_overlay', 'next_section');
 
 	public function create($post, $box){
 		$sliders = $this->PostMeta->find(array($post->ID, 'cp-press-slider'));
 		$content = '';
 		if(!empty($sliders)){
 			foreach($sliders as $key => $slide){
-				if(!in_array($key, $this->sliderOptions))
-					$content .= CpSlider::dispatch_template('AdminSlider', 'add_slide', array($slide['id'], $slide['title'], $slide['content']));
+				if(!in_array($key, $this->sliderOptions)){
+					$params = array($slide['id']);
+					if(isset($slide['title']))
+						array_push($params, $slide['title']);
+					if(isset($slide['content']))
+						array_push ($params, $slide['content']);
+					$content .= CpSlider::dispatch_template('AdminSlider', $slide['action'], array($slide['id'], $slide['title'], $slide['content']));
+				}
 			}
 		}
 		$this->assign('show_title', isset($sliders['show_title']) ? $sliders['show_title'] : '');
 		$this->assign('show_content', isset($sliders['show_content']) ? $sliders['show_content'] : '');
 		$this->assign('show_logo', isset($sliders['show_logo']) ? $sliders['show_logo'] : '');
+		$this->assign('show_overlay', isset($sliders['show_overlay']) ? $sliders['show_overlay'] : '');
+		$this->assign('slider_type', isset($sliders['type']) ? $sliders['type'] : 'cppress');
+		$this->assign('sub_title', isset($sliders['sub_title']) ? $sliders['sub_title'] : '');
+		$this->assign('next_section', isset($sliders['next_section']) ? $sliders['next_section'] : '');
 		$this->assign('slides_body', $content);
 		$this->assign('slider_id', $post->ID);
 	}
@@ -95,6 +105,35 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		$this->assign('slide_title', $title);
 		$this->assign('slide_content', $content);
 	}
+	
+	public function add_parallax_slide($slide='', $title=''){
+		if(!$slide){
+			$this->isAjax = true;
+			$slide_id = $this->post['slide_id'];
+		}else{
+			$this->isAjax = false;
+			$slide_id = $slide;
+		}
+		$this->assign('slide_id', $slide_id);
+		$this->assign('slide_title', $title);
+	}
+	
+	public function add_parallax_bg($slide=''){
+		if(!$slide){
+			$this->isAjax = true;
+			$slide_thumb = wp_get_attachment_image_src($this->post['slide_id'], array('150', '150'));
+			$slide_full = wp_get_attachment_image_src($this->post['slide_id'], 'full');
+			$slide_id = $this->post['slide_id'];
+		}else{
+			$this->isAjax = false;
+			$slide_thumb = wp_get_attachment_image_src($slide, array('150', '150'));
+			$slide_full = wp_get_attachment_image_src($slide, 'full');
+			$slide_id = $slide;
+		}
+		$this->assign('slide_thumb', $slide_thumb);
+		$this->assign('slide_full', $slide_full);
+		$this->assign('slide_id', $slide_id);
+	}
 
 	public function delete_slide(){
 		$this->autoRender = false;
@@ -108,23 +147,32 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		$this->autoRender = false;
 		$slide = $this->Slider->find(array('p' => $content['id']));
 		$slidePost = $slide->posts[0];
-		$sliders = array();
 		$slidersData = $this->PostMeta->find(array($slidePost->ID, 'cp-press-slider'));
-		foreach($slidersData as $id => $slideData){
-			if(in_array($id, $this->sliderOptions))
-				continue;
-			$sliders[$id]['title'] = $slideData['title'];
-			$sliders[$id]['content'] = $slideData['content'];
-			$sliders[$id]['media'] = wp_get_attachment_image_src($id, 'full');
+		$view = 'slider_view';
+		if($slidersData['type'] == 'cppress'){
+			$sliders = $this->cppressSlider($slidersData);
+			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
+			$this->assign('show_content', isset($slidersData['show_content']) ? true : false);
+			
+		}else if($slidersData['type'] == 'parallax'){
+			$sliders = $this->parallaxSlider($slidersData);
+			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
+			$this->assign('show_overlay', isset($slidersData['show_overlay']) ? true : false);
+			$this->assign('sub_title', isset($slidersData['sub_title']) ? $slidersData['sub_title'] : '');
+			$this->assign('next_section', isset($slidersData['next_section']) ? $slidersData['next_section'] : '');
+			$view = 'slider_view_parallax';
+		}else if($slidersData['bootstrap']){
+			$sliders = $this->bootstrapSlider($slidersData);
+			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
+			$this->assign('show_content', isset($slidersData['show_content']) ? true : false);
 		}
-		$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
-		$this->assign('show_content', isset($slidersData['show_content']) ? true : false);
+		$this->assign('section_name', $content['section_name']);
 		$this->assign('show_logo', isset($slidersData['show_logo']) ? true : false);
 		$this->assign('sliders', $sliders);
 		$this->assign('slide', $slidePost);
 		$logo_slider = !is_null($this->SliderSettings->find('cppress_slider_logo')) ? $this->SliderSettings->find('cppress_slider_logo') : get_template_directory_uri().'/img/logo_slide.png';
 		$this->assign('logo_slider_img_uri', $logo_slider);
-		return $this->render(array('controller' => 'Index'));
+		return $this->render(array('controller' => 'Index', 'action' => $view));
 	}
 
 	public static function save($post_id){
@@ -134,6 +182,39 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 
 			update_post_meta($post_id, 'cp-press-slider', $_POST['cp-press-slider']);
 		}
+	}
+	
+	private function cppressSlider($slidersData){
+		$sliders = array();
+		foreach($slidersData as $id => $slideData){
+			if(in_array($id, $this->sliderOptions))
+				continue;
+			$sliders[$id]['title'] = $slideData['title'];
+			$sliders[$id]['content'] = $slideData['content'];
+			$sliders[$id]['media'] = wp_get_attachment_image_src($id, 'full');
+		}
+		
+		return $sliders;
+	}
+	
+	private function parallaxSlider($slidersData){
+		$sliders = array();
+		foreach($slidersData as $id => $slideData){
+			if(in_array($id, $this->sliderOptions))
+				continue;
+			if($slideData['action'] == 'add_parallax_bg'){
+				$sliders['bg']['media'] = wp_get_attachment_image_src($id, 'full');
+			}else{
+				$sliders[$id]['title'] = $slideData['title'];
+			}
+		}
+		return $sliders;
+	}
+	
+	private function bootstrapSlider($slidersData){
+		$sliders = array();
+		
+		return $sliders;
 	}
 
 }

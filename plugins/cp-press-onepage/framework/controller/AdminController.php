@@ -39,6 +39,13 @@ class AdminController extends Controller{
 		parent::__construct();
 		$this->autoRender = false;
 		$this->icons['logo'] = plugins_url('img/chpress.png', WPCHOP_BASE_FILE);
+		if(file_exists(get_stylesheet_directory().DS.'favicon.png')){
+			$this->icons['logo'] = get_stylesheet_directory_uri().'/favicon.png';
+		}
+	}
+	
+	public function favicon(){
+		echo '<link rel="shortcut icon" href="' . $this->icons['logo'] . '" />';
 	}
 	
 	public function install(){
@@ -47,32 +54,33 @@ class AdminController extends Controller{
 				'post' => 'Post Layout',
 				'page' => 'Page Layout',
 				'sidebar' => 'Sidebar Layout',
-				'text'	=> 'Simple Text Layout'
+				'text'	=> 'Simple Text Layout',
+				'navigation' => 'Navigation layout'
 			),
 		);
-		$this->Settings->delete();
 		$this->Settings->save($sectionContentType);
 		$headerSettings = array(
-			'menu_slider_offset' => '100',
-			'scroll_top_offset' => array(
-				'min' => '10',
-				'max' => '100',
-			),
-			'color' => array(
-				'menu_background' => array(
-					'color' => '#000000',
-					'usecss' => '1'
+			
+				'menu_slider_offset' => '100',
+				'scroll_top_offset' => array(
+					'min' => '10',
+					'max' => '100',
 				),
-				'menu_text_color' => array(
-					'color' => '#FFFFFF',
-					'usecss' => '1'
-				),
-				'menu_hover_line_color' => array(
-					'color' => '#00b5a5',
-					'usecss' => '1'
+				'color' => array(
+					'menu_background' => array(
+						'color' => '#000000',
+						'usecss' => '1'
+					),
+					'menu_text_color' => array(
+						'color' => '#FFFFFF',
+						'usecss' => '1'
+					),
+					'menu_hover_line_color' => array(
+						'color' => '#FFFFFF',
+						'usecss' => '1'
+					)
 				)
-			)
-		);
+			);
 		$this->HeaderSettings->delete();
 		$this->HeaderSettings->save($headerSettings);
 	}
@@ -80,23 +88,20 @@ class AdminController extends Controller{
 	public function admin_init(){
 		register_setting('chpress_header_settings_groups', 'chpress_header_settings');
 		register_setting('chpress_settings_groups', 'chpress_settings');
-		add_action('wp_ajax_select_content_type', function(){
-			CpOnePage::dispatch('AdminSection', 'select_content_type');
+		add_action('wp_ajax_set_content_type', function(){
+			CpOnePage::dispatch('AdminSection', 'set_content_type');
 		});
-		add_action('wp_ajax_post', function(){
-			CpOnePage::dispatch('AdminSection', 'select_post');
+		add_action('wp_ajax_add_row_modal', function(){
+			CpOnePage::dispatch('AdminRow', 'add_row_modal');
 		});
-		add_action('wp_ajax_page', function(){
-			CpOnePage::dispatch('AdminSection', 'select_page');
+		add_action('wp_ajax_modify_row_modal', function(){
+			CpOnePage::dispatch('AdminRow', 'modify_row_modal');
 		});
-		add_action('wp_ajax_sidebar', function(){
-			CpOnePage::dispatch('AdminSection', 'select_sidebar');
+		add_action('wp_ajax_add_row', function(){
+			CpOnePage::dispatch('AdminRow', 'add_row');
 		});
-		add_action('wp_ajax_select_post_advanced', function(){
-			CpOnePage::dispatch('AdminSection', 'select_post_advanced');
-		});
-		add_action('wp_ajax_text', function(){
-			CpOnePage::dispatch('AdminSection', 'select_simple_text');
+		add_action('wp_ajax_set_post_advanced', function(){
+			CpOnePage::dispatch('AdminContentType', 'postadvanced');
 		});
 		add_filter('manage_section_posts_columns' , function(){
 			return CpOnePage::dispatch_method('AdminSection', 'section_columns', func_get_args());
@@ -120,7 +125,7 @@ class AdminController extends Controller{
 		wp_enqueue_script('quicktags');
 		wp_enqueue_script('wp-color-picker');
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_script('cp-press');
+		wp_enqueue_script('cp-press-admin');
 		wp_enqueue_script('media-upload');
 		wp_enqueue_script('thickbox');
 		wp_enqueue_style('thickbox');
@@ -168,10 +173,29 @@ class AdminController extends Controller{
 			'default'
 		);
 		add_meta_box(
+			'cp-press-section-contenttype', 
+			'Available Content', 
+			function($post, $box){
+				CpOnePage::dispatch('AdminSection', 'content_type_box', array($post, $box));
+			},
+			'section', 
+			'side', 
+			'default'
+		);
+		add_meta_box(
 			'cp-press-section-content', 
 			'Content', 
 			function($post, $box){
 				CpOnePage::dispatch('AdminSection', 'content', array($post, $box));
+			},
+			'section', 
+			'advanced'
+		);
+		add_meta_box(
+			'cp-press-section-subtitle', 
+			'Sotto titolo', 
+			function($post, $box){
+				CpOnePage::dispatch('AdminSection', 'sub_title', array($post, $box));
 			},
 			'section', 
 			'advanced'

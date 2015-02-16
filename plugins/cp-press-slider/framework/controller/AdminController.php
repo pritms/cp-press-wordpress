@@ -65,6 +65,12 @@ class AdminController extends \CpPressOnePage\Controller{
 		add_action('wp_ajax_add_slide', function(){
 			CpSlider::dispatch('AdminSlider', 'add_slide');
 		});
+		add_action('wp_ajax_add_parallax_slide', function(){
+			CpSlider::dispatch('AdminSlider', 'add_parallax_slide');
+		});
+		add_action('wp_ajax_add_parallax_bg', function(){
+			CpSlider::dispatch('AdminSlider', 'add_parallax_bg');
+		});
 		add_action('wp_ajax_delete_slide', function(){
 			CpSlider::dispatch('AdminSlider', 'delete_slide');
 		});

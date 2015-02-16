@@ -2,25 +2,22 @@
 	<h2>CommonHelp Press Slider Options</h2>
 	<form method="post" action="options.php">
 		<?php settings_fields('chpress_slider_settings_groups'); ?>
+		<h3>Slider Type</h3>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row">Center Logo</th>
+				<th scope="row">Slider</th>
 				<td>
-					<input name="chpress_slider_settings[center_logo]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['center_logo'] ); ?> />&nbsp;
+					<select class="widefat" id="slider_type_select" name="">	
+						<option value="cppress">CpPress Slider</option>
+						<option value="parallax">Parallax Overlay (Sug. Codeon Theme)</option>
+						<option value="bootstrap">Bootstrap Carousel (Not developed yet)</option>
+					</select>
 				</td>
 			</tr>
-			<tr valign="top">
-				<th scope="row">Logo position top</th>
-				<td>
-						<input name="chpress_slider_settings[logo_ptop]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['logo_ptop'] ); ?> />&nbsp;
-				</td>
-			</tr>
-			<tr valign="top">
-				<th scope="row">Logo position bottom</th>
-				<td>
-					<input name="chpress_slider_settings[logo_pbottom]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['logo_pbottom'] ); ?> />&nbsp;
-				</td>
-			</tr>
+		</table>
+		<br />
+		<h3>General Options</h3>
+		<table class="form-table">
 			<tr valign="top">
 				<th scope="row">Image width</th>
 				<td>
@@ -62,6 +59,42 @@
 				</td>
 			</tr>
 		</table>
+		<br />
+		<div id="cppress-box" class="hideable">
+			<h3>CpPress Slider Options</h3>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row">Center Logo</th>
+					<td>
+						<input name="chpress_slider_settings[center_logo]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['center_logo'] ); ?> />&nbsp;
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row">Logo position top</th>
+					<td>
+							<input name="chpress_slider_settings[logo_ptop]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['logo_ptop'] ); ?> />&nbsp;
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row">Logo position bottom</th>
+					<td>
+						<input name="chpress_slider_settings[logo_pbottom]" type="checkbox" value="1" <?php checked( '1', $chpress_slider_settings['logo_pbottom'] ); ?> />&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="parallax-box" class="hideable">
+			<h3>Parallax Slider Options</h3>
+			<table class="form-table">
+				
+			</table>
+		</div>
+		<div id="bootstrap-box" class="hideable">
+			<h3>Bootstrap Carousel Options</h3>
+			<table class="form-table">
+				
+			</table>
+		</div>
 		<p class="submit">
 			<input type="submit" class="button-primary" value="Save" />
 		</p>

@@ -54,8 +54,12 @@ abstract class Options extends Model{
 	public function save($data){
 		if($this->beforseSave($data)){
 			foreach($data as $key => $values){
-				foreach($values as $subKey => $value)
-					$this->options = \Set::insert($this->options, $this->group.'.'.$key.'.'.$subKey, $value);
+				if(is_array($values)){
+					foreach($values as $subKey => $value)
+						$this->options = \Set::insert($this->options, $this->group.'.'.$key.'.'.$subKey, $value);
+				}else{
+					$this->options = \Set::insert($this->options, $this->group.'.'.$key, $values);
+				}
 			}
 			delete_option($this->group);
 			$toReturn = update_option($this->group, $this->options);

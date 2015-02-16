@@ -44,6 +44,12 @@ class CpOnePage {
 		add_action('wp_enqueue_scripts', function(){
 			CpOnePage::enqueue_assets();
 		});
+		add_action('admin_head', function(){
+			CpOnePage::dispatch('Admin', 'favicon');
+		});
+		add_action('login_head', function(){
+			CpOnePage::dispatch('Admin', 'favicon');
+		});
 		add_action('admin_init', function(){
 			CpOnePage::dispatch('Admin', 'admin_init', func_get_args());
 		});
@@ -99,32 +105,18 @@ class CpOnePage {
 			)
 		);
 		register_post_type('section', $sectionArgs);
-		register_nav_menus(
-			array(
-				'header-menu'	=> 'Header Menu',
-				'splash-menu'	=> 'Splash Menu'
-			)
-		);
 		wp_register_style( 'bootstrap', plugins_url('/css/bootstrap/css/bootstrap.css', __FILE__), false, '', 'all');
-		wp_register_style( 'bootstrap-responsive', plugins_url('/css/bootstrap/css/bootstrap-responsive.css', __FILE__), false, '', 'all');
+		wp_register_style( 'font-awesome', plugins_url('/css/font-awesome/css/font-awesome.css', __FILE__), false, '', 'all');
 		wp_register_style( 'entypo-icon', plugins_url('css/entypo-icon-font/entypo-icon-font.css', __FILE__));
+		wp_register_style( 'animate', plugins_url('css/animate.css', __FILE__));
 		wp_register_script( 'bootstrap', plugins_url('js/bootstrap.js', __FILE__));
-		wp_register_script( 'browser', plugins_url('js/browser.js', __FILE__));
-		wp_register_script( 'mobile', plugins_url('js/mobile.js', __FILE__));
-		wp_register_script( 'transit', plugins_url('js/transit.js', __FILE__));
-		wp_register_script( 'lazyload', plugins_url('js/lazyload.js', __FILE__));
-		wp_register_script( 'scrollto', plugins_url('js/scrollto.js', __FILE__));
-		wp_register_script( 'nav', plugins_url('js/nav.js', __FILE__));
+		wp_register_script( 'cp-press', plugins_url('js/cp-press.js', __FILE__));
 		if(is_admin()){
 			wp_register_script( 'jquery-ui', plugins_url('js/jquery-ui.js', __FILE__), false, '1.10.4');
 			wp_register_script( 'form-validator', plugins_url('js/form-validator.js', __FILE__));
-			wp_register_script( 'cp-press', plugins_url('js/cp-press-admin.js', __FILE__), false, '1.0.0');
+			wp_register_script( 'cp-press-admin', plugins_url('js/cp-press-admin.js', __FILE__), false, '1.0.0');
 			wp_register_style( 'jquery-ui', plugins_url('css/jquery-ui-smoothness.css', __FILE__));
 			wp_register_style( 'cp-press-admin', plugins_url('css/cp-press-admin.css', __FILE__));
-		}else{
-			wp_register_script( 'cp-press', plugins_url('js/cp-press.js', __FILE__), false, '1.0.0');
-			wp_register_script( 'cp-press-carousel', plugins_url('js/cp-press-carousel.js', __FILE__));
-			wp_register_style( 'cp-press', plugins_url('css/cp-press.css', __FILE__), false, '1.0.0', 'all');
 		}
 
 

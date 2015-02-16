@@ -34,10 +34,33 @@ namespace CpPressOnePage;
 class AdminSectionController extends Controller{
 
 	protected $uses = array('Section', 'Post', 'Page', 'Settings', 'PostMeta');
+	
+	private $pluginContentTypes = array(
+		'gallery',
+		'slider',
+		'portfolio',
+		'event'
+	);
 
 	public function order_box($post, $box){
 		$order_box_value = get_post_meta($post->ID, 'cp-press-section-order', true);
 		$this->assign('order_box_value', $order_box_value != '' ? $order_box_value : $this->Section->count('publish'));
+	}
+	
+	public function sub_title($post, $box){
+		$sub_title_value = get_post_meta($post->ID, 'cp-press-section-subtitle', true);
+		$this->assign('sub_title_value', $sub_title_value);
+	}
+	
+	public function content_type_box($post, $box){
+		global $wp_registered_sidebars;
+		$this->assign('post_id', $post->ID);
+		if(!empty($wp_registered_sidebars))
+			$this->assign('content_types', $this->Settings->find('section_content_type'));
+		else{
+			$content_types = \Set::remove($this->Settings->find('section_content_type'), 'sidebar');
+			$this->assign('content_types', $content_types);
+		}
 	}
 
 	public function single_box($post, $box){
@@ -45,7 +68,7 @@ class AdminSectionController extends Controller{
 		$this->assign('cp_post_options', $cp_post_options);
 	}
 
-	public function content($post, $box){
+	/*public function content($post, $box){
 		global $wp_registered_sidebars;
 		$content_cols = $this->PostMeta->find(array($post->ID, 'cp-press-section-content'));
 		$cols = array();
@@ -70,156 +93,77 @@ class AdminSectionController extends Controller{
 			$this->assign('is_sidebar_active', false);
 		$this->assign('post_id', $post->ID);
 		$this->assign('content', $content);
-	}
-
-	public function select_content_type($content=array(), $col=0){
+	}*/
+	
+	public function content($post, $box){
 		global $wp_registered_sidebars;
-		if(empty($content)){
+		$contents = $this->PostMeta->find(array($post->ID, 'cp-press-section-content'));
+		$rowsDb = $this->PostMeta->find(array($post->ID, 'cp-press-section-rowconfig'));
+		if($rowsDb == '')
+			$rowsDb = array();
+		ksort($rowsDb);
+		$rows = array();
+		foreach($rowsDb as $row => $colsDb){
+			foreach($colsDb as $col => $data){
+				$rows[$row][$col]['bootstrap'] = $data['bootstrap'];
+				if(isset($data['content'])){
+					$rows[$row][$col]['content'] = 
+							$data['closure']['ns']::dispatch_template(
+									$data['closure']['controller'], 
+									$data['closure']['action'], 
+									array($row, $col, $data['content'])
+							);
+					$rows[$row][$col]['closure'] = $data['closure'];
+				}else{
+					$rows[$row][$col]['content'] = null;
+					$rows[$row][$col]['closure'] = null;
+				}
+			}
+		}
+		$this->assign('is_sidebar_active', true);
+		if(empty($wp_registered_sidebars))
+			$this->assign('is_sidebar_active', false);
+		$this->assign('rows', $rows);
+		$this->assign('post_id', $post->ID);
+		$this->assign('content', $content);
+	}
+	
+	public function add_row_modal(){
+		$this->isAjax = true;
+		$fluidGrid = array(
+			'1' => '12',
+			'2' => '6',
+			'3' => '4',
+			'4' => '3',
+			'6' => '2'
+		);
+		$this->assign('grid', $fluidGrid);
+	}
+	
+	public function set_content_type($action='', $row='', $col=''){
+		if($action == ''){
 			$this->isAjax = true;
-			$this->assign('ajax', true);
+			$action = $this->post['content_type'];
+			$col = $this->post['col'];
+			$row = $this->post['row'];
+		}
+		if(!in_array($action, $this->pluginContentTypes)){
+			$this->assign('content_type', CpOnePage::dispatch_template ('AdminContentType', $action, array($row, $col)));
 		}else{
-			if($content['type'] == 'Simple Text')
-				$content['type'] = 'text';
-			$this->assign('ajax', false);
+			$ns = '\CpPress'.ucfirst($action).'\Cp'.ucfirst($action);
+			$this->assign('content_type', $ns::dispatch_template ('AdminContentType', $action, array($row, $col)));
 		}
-		if(!isset($this->get['num_col']))
-			$this->assign('col', $col);
-		else
-			$this->assign('col', $this->get['num_col']);
-		$this->assign('content', $content);
-		if(!isset($this->get['post']))
-			$this->assign('post_id', $content['post_id']);
-		else
-			$this->assign('post_id', $this->get['post']);
-		if(!empty($wp_registered_sidebars))
-			$this->assign('content_types', $this->Settings->find('section_content_type'));
-		else{
-			$content_types = \Set::remove($this->Settings->find('section_content_type'), 'sidebar');
-			$this->assign('content_types', $content_types);
-		}
-	}
-
-	public function select_post($content = array(), $col=0){
-		if(empty($content)){
-			$this->isAjax = true;
-			$this->assign('ajax', true);
-		}else{
-			$this->assign('ajax', false);
-		}
-		$this->assign('title', 'post');
-		$this->assign('type', 'post');
-		$this->assign('ns', '\CpPressOnePage\CpOnePage');
-		$this->assign('controller', 'AdminSection');
-		$this->assign('action', 'select_post');
-		$this->assign('content', $content);
-		if(!empty($content) && ($content['id'] == 'extended' || $content['id'] == 'advanced'))
-			$this->assign('advanced_options', CpOnePage::dispatch_template ('AdminSection', 'select_post_advanced', array($content, $col)));
-		else
-			$this->assign('advanced_options', '');
-		$posts = $this->Post->findAll();
-		$this->assign('items', \Set::combine($posts->posts, '{n}.ID', '{n}.post_title'));
-		$this->assign('section', $this->Section->find(array('p' => $this->get['section'])));
-		if(isset($this->get['num_col']))
-			$this->assign('num_col', $this->get['num_col']);
-		else
-			$this->assign('num_col', $col);
-	}
-
-	public function select_post_advanced($content = array(), $col=0){
-		if(empty($content))
-			$this->isAjax = true;
-		$this->assign('content', $content);
-		if(isset($this->get['num_col']))
-			$this->assign('num_col', $this->get['num_col']);
-		else
-			$this->assign('num_col', $col);
-
-	}
-
-	public function select_simple_text($content = array(), $col=0){
-		if(empty($content))
-			$this->isAjax = true;
-		if(isset($content['content']))
-			$this->assign('content', $content['content']);
-		else
-			$this->assign('content', '');
-		$this->assign('type', 'Simple Text');
-		$this->assign('ns', '\CpPressOnePage\CpOnePage');
-		$this->assign('controller', 'AdminSection');
-		$this->assign('action', 'select_simple_text');
-		if(isset($this->get['num_col']))
-			$this->assign('num_col', $this->get['num_col']);
-		else
-			$this->assign('num_col', $col);
-	}
-
-	public function select_page($content = array(), $col=0){
-		$this->autoRender = false;
-		if(empty($content)){
-			$this->isAjax = true;
-			$this->assign('ajax', true);
-		}else{
-			$this->assign('ajax', false);
-		}
-		$this->assign('content', $content);
-		$this->assign('title', 'page');
-		$this->assign('type', 'page');
-		$this->assign('ns', '\CpPressOnePage\CpOnePage');
-		$this->assign('controller', 'AdminSection');
-		$this->assign('action', 'select_page');
-		$pages = $this->Page->findAll();
-		$this->assign('items', \Set::combine($pages->posts, '{n}.ID', '{n}.post_title'));
-		$this->assign('section', $this->Section->find(array('p' => $this->get['section'])));
-		if(isset($this->get['num_col']))
-			$this->assign('num_col', $this->get['num_col']);
-		else
-			$this->assign('num_col', $col);
-		return $this->render(array('controller' => 'AdminSection', 'action' => 'select_content', 'ns' => 'cp-press-onepage'));
-	}
-
-	public function select_sidebar($content = array(), $col=0){
-		if(empty($content)){
-			$this->isAjax = true;
-			$this->assign('ajax', true);
-		}else{
-			$this->assign('ajax', false);
-		}
-		$this->assign('content', $content);
-		$this->assign('title', 'sidebar');
-		$this->assign('type', 'sidebar');
-		$this->assign('ns', '\CpPressOnePage\CpOnePage');
-		$this->assign('controller', 'AdminSection');
-		$this->assign('action', 'select_sidebar');
-		$this->assign('section', $this->Section->find(array('p' => $this->get['section'])));
-		if(isset($this->get['num_col']))
-			$this->assign('num_col', $this->get['num_col']);
-		else
-			$this->assign('num_col', $col);
 	}
 
 	public function section_columns($cols){
 		$this->autoRender = false;
-		$cols['content_type'] = 'Content Layout';
+		//$cols['content_type'] = 'Content Layout';
 		return $cols;
 	}
 
 	public function section_custom_column($col, $post){
 		$this->autoRender = false;
-		$content_cols = $this->PostMeta->find(array($post, 'cp-press-section-content'));
-		if($content_cols){
-			switch($col){
-				case 'content_type':
-					$content_types = $this->Settings->find('section_content_type');
-					$toEcho = '';
-					foreach($content_cols as $content){
-						$toEcho .= $content_types[$content['type']].', ';
-					}
-					$toEcho = substr($toEcho, 0, strlen($toEcho) - 2);
-					e($toEcho);
-			}
-		}else{
-			e('N/A');
-		}
+	
 	}
 
 	public function order_section(\WP_Query $query){
@@ -279,6 +223,10 @@ class AdminSectionController extends Controller{
 		$this->assign('sidebar', $content);
 		return $this->render(array('controller' => 'Index'));
 	}
+	
+	public function navigation_view($content=array(), $col=0){
+		$this->assign('menu', \CpPressOnePage\CpOnePage::dispatch_template('Menu', 'navbar', array($content['id'])));
+	}
 
 	public static function save($post_id){
 		if(isset($_POST['cp-press-section-order'])){
@@ -287,11 +235,23 @@ class AdminSectionController extends Controller{
 
 			update_post_meta($post_id, 'cp-press-section-order', sanitize_text_field($_POST['cp-press-section-order']));
 		}
+		if(isset($_POST['cp-press-section-subtitle'])){
+			if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+				return;
+
+			update_post_meta($post_id, 'cp-press-section-subtitle', sanitize_text_field($_POST['cp-press-section-subtitle']));
+		}
 		if(isset($_POST['cp-press-section-content'])){
 			if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
 				return;
 
 			update_post_meta($post_id, 'cp-press-section-content', $_POST['cp-press-section-content']);
+		}
+		if(isset($_POST['cp-press-section-rowconfig'])){
+			if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+				return;
+
+			update_post_meta($post_id, 'cp-press-section-rowconfig', $_POST['cp-press-section-rowconfig']);
 		}
 		if(isset($_POST['cp-press-post-options'])){
 			if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
