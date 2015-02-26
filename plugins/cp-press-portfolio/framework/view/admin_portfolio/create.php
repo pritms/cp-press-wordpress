@@ -1,4 +1,4 @@
-<table class="widefat portfolio append-portfolio sortable" id="portfolio_<?=$portfolio_id?>">
+<table class="widefat cp-portfolio append-portfolio sortable" id="portfolio_<?=$portfolio_id?>">
 	<thead>
 	<tr>
 		<th style="width: 100px;">
@@ -45,6 +45,10 @@
 					<label class="input-checkbox">Show icons:</label>
 					<input name="cp-press-portfolio[show_link]" type="checkbox" value="1" <?php checked( '1', $show_link ); ?> />&nbsp;
 				</p>
+				<p>
+					<label class="input-checkbox">Hide information box (this options makes all box clickable)</label>
+					<input name="cp-press-portfolio[hideinfo]" type="checkbox" value="1" <?php checked( '1', $hideinfo ); ?> />&nbsp;
+				<p>
 			</td>
 		</tr>
 	</tbody>

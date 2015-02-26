@@ -1,0 +1,54 @@
+	/*apply sticky styles only above 1024px IPAD LANDSCAPE*/
+	@media (min-width: 1024px) {
+	}
+	
+	/*general header settings on all resolutions with mobile menu*/
+	@media (max-width: 1023px) {
+	}
+	
+	/*ensure sticky header on mobile devices provided there is suffieient height
+	tablets in portrait mode will therefores have sticky header once screen height is 768px and up*/
+	@media (min-height: 768px) {
+	}
+	
+	/*iphone5*/
+	@media (max-width: 568px){
+	}
+	
+	/*iPad portrait & landscape*/
+	@media (min-width: 768px) and (max-width: 1023px) {
+	}
+
+
+	/*small tablet*/
+    @media (max-width: 767px) {
+   		.wpchop-menu{
+			background-color:#1598b4;
+			top: 50px;
+		}
+		
+    	.wpchop-menu-main .menu-toggle{
+			background-color:#1598b4;
+			color:#fff;
+		}
+		
+		#dynamic-menu .wpchop-menu-main .menu-toggle{
+			float: right;
+			margin-top: 8px;
+		}
+	}
+	
+	/*iPhone landscape*/
+    @media (max-width: 480px) {
+    }
+	
+	
+	/*mobile menu on iphone*/
+	@media (max-width: 479px) {
+	}
+	
+	/*overwrite largest media query because we will not use it*/
+   @media (min-width: 1200px) {
+   }
+	
+

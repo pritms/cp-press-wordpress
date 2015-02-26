@@ -67,33 +67,6 @@ class AdminSectionController extends Controller{
 		$cp_post_options = get_post_meta($post->ID, 'cp-press-post-options', true);
 		$this->assign('cp_post_options', $cp_post_options);
 	}
-
-	/*public function content($post, $box){
-		global $wp_registered_sidebars;
-		$content_cols = $this->PostMeta->find(array($post->ID, 'cp-press-section-content'));
-		$cols = array();
-		$content_body = '';
-		if(isset($content_cols) && !empty($content_cols)){
-			foreach($content_cols as $col => $content){
-				$t_content = $content;
-				$t_content['post_id'] = $post->ID;
-				$class = $content['ns'];
-				$content_body .= $class::dispatch_template($content['controller'], $content['action'], array($content, $col));
-				$this->assign('content_body', $content_body);
-				$cols[$col] = CpOnePage::dispatch_template('AdminSection', 'select_content_type', array($t_content, $col));
-			}
-			$this->assign('cols', $cols);
-		}else{
-			$t_content = array('post_id' => $post->ID);
-			$cols[0] = CpOnePage::dispatch_template('AdminSection', 'select_content_type', array($t_content, 0));;
-			$this->assign('cols', $cols);
-		}
-		$this->assign('is_sidebar_active', true);
-		if(empty($wp_registered_sidebars))
-			$this->assign('is_sidebar_active', false);
-		$this->assign('post_id', $post->ID);
-		$this->assign('content', $content);
-	}*/
 	
 	public function content($post, $box){
 		global $wp_registered_sidebars;

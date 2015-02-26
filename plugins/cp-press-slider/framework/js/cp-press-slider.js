@@ -48,6 +48,15 @@ jQuery(window).load(function(){
 			});
 		}
 		el.children('.image').each(function(i, item){
+			if(typeof $(item).data('link') !== 'undefined'){
+				$(item).find('.cp-slider-title').css({
+					cursor: 'pointer'
+				});
+				$(item).click(function(){
+					window.location.href = $(this).data('link');
+					return false;
+				});
+			}
 			images[i] = i;
 			h = $.dimensions();
 			$(item).css({

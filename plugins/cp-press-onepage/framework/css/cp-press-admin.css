@@ -759,12 +759,12 @@ section.cp_content_type{
   clear: both;
 }
 
-.cp-rows{
+.cp-rows, .cp-rows-inside{
 	margin: 0;
 	margin-top: 5px;
 }
 
-.cp-rows .cp-col{
+.cp-rows .cp-col, .cp-rows-inside .cp-col-inside{
 	padding-left: 0;
 	padding-right: 0;
 	margin: 5px 0 5px -5px;
@@ -787,7 +787,7 @@ section.cp_content_type{
 	border-bottom: 1px solid #eee;
 }
 
-.cp-postbox .cp-row-icons {
+.cp-row-icons {
 	cursor: pointer;
 	float: right;
 	width: 27px;
@@ -795,7 +795,7 @@ section.cp_content_type{
 	color: #aaa;
 }
 
-.cp-postbox .cp-row-icons:before{
+.cp-row-icons:before{
 	right: 12px;
 	font: 400 20px/1 dashicons;
 	speak: none;
@@ -808,31 +808,121 @@ section.cp_content_type{
 	text-decoration: none!important;
 }
 
-.cp-postbox .cp-row-delete:before {
+.cp-row-delete:before {
 	content: '\f153';
 }
-.cp-postbox .cp-row-delete:hover {
+.cp-row-delete:hover {
 	color: #c40c0c;
 }
 
-.cp-postbox .cp-row-edit:before {
-	content: '\f113';
+.cp-row-link:before {
+	content: '\f103';
 }
 
-.cp-postbox .cp-row-edit:hover{
+.cp-row-link:hover{
 	color: #0cc42b;
 }
 
-.cp-postbox .cp-row-move:before{
+.cp-row-image:before {
+	content: '\f233';
+}
+
+.cp-row-image:hover{
+	color: #0cc42b;
+}
+
+.cp-row-move:before{
 	content: '\f211';
 }
 
-.cp-postbox .cp-row-move:hover{
+.cp-row-move:hover{
 	color: #0c49c4;
 }
 
-.cp-postbox .cp-row-move{
+.cp-row-move{
 	cursor: move;
+}
+
+.cp-row-ctype:hover{
+	color: #0c49c4;
+}
+
+.cp-row-ctype:before{
+	content: '\f105';
+}
+
+.cp-row-page:hover{
+	color: #0c49c4;
+}
+
+.cp-row-page:before{
+	content: '\f133';
+}
+
+.cp-row-media:hover{
+	color: #0c49c4;
+}
+
+.cp-row-media:before{
+	content: '\f496';
+}
+
+.cp-content-select .cp-row-icons{
+	float: left;
+}
+
+.cp-content-select .cp-row-icons:before{
+	right: 5px;
+}
+
+.cp-content-select{
+	width: 100%;
+	min-height: 36px;
+	border: 1px solid #eee;
+}
+
+.cp-content-selected{
+	margin: 5px 10px 5px 10px;
+}
+
+table tr.cp-item-placeholder td{
+	border: 1px dashed #aeaeae;
+	background-color: #c4ffb8 !important;
+	margin: 0 1em 1em 0;
+	height: 300px;
+	background: white;
+}
+
+
+.cp-selectable .ui-selecting { 
+	background: #d4e8ec; 
+}
+.cp-selectable .ui-selected { 
+	background: #0074a2; 
+	color: white; 
+}
+.cp-selectable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	width: 60%; 
+}
+.cp-selectable li { 
+	margin: 3px;
+	padding: 0.4em; 
+	height: 18px; 
+}
+
+.thumb .media-details {
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 0 5px;
+    text-transform: uppercase;
+    font-size: 9px;
+    opacity: 0.6;
 }
 
 

@@ -7,10 +7,6 @@
 		<? if($page->post_content != ''): ?>
 		<div class="col-md-6 cp-columns">
 			<? the_content() ?>
-			<div class="cp-social">
-				<h6>Social media</h6>
-			<? if ( function_exists( 'ADDTOANY_SHARE_SAVE_KIT' ) ) { ADDTOANY_SHARE_SAVE_KIT(); } ?>
-			</div>
 		</div>
 		<div class="col-md-6 cp-columns">
 			<? if($gallery): ?>

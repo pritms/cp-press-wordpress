@@ -34,20 +34,22 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 
 	protected $uses = array('Slider', 'Section', 'PostMeta', 'SliderSettings');
 
-	private $sliderOptions = array('show_title', 'show_content', 'show_logo', 'run_effect', 'type', 'sub_title', 'show_overlay', 'next_section');
+	public static $sliderOptions = array('show_title', 'show_content', 'show_logo', 'run_effect', 'type', 'sub_title', 'show_overlay', 'next_section');
 
 	public function create($post, $box){
 		$sliders = $this->PostMeta->find(array($post->ID, 'cp-press-slider'));
 		$content = '';
 		if(!empty($sliders)){
 			foreach($sliders as $key => $slide){
-				if(!in_array($key, $this->sliderOptions)){
+				if(!in_array($key, self::$sliderOptions)){
 					$params = array($slide['id']);
 					if(isset($slide['title']))
 						array_push($params, $slide['title']);
 					if(isset($slide['content']))
 						array_push ($params, $slide['content']);
-					$content .= CpSlider::dispatch_template('AdminSlider', $slide['action'], array($slide['id'], $slide['title'], $slide['content']));
+					if(isset($slide['link']))
+						array_push ($params, $slide['link']);
+					$content .= CpSlider::dispatch_template('AdminSlider', $slide['action'], $params);
 				}
 			}
 		}
@@ -87,7 +89,7 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		return $this->render(array('controller' => 'AdminSection', 'action' => 'select_content', 'ns' => 'cp-press-onepage'));
 	}
 
-	public function add_slide($slide='', $title='', $content=''){
+	public function add_slide($slide='', $title='', $content='', $link=''){
 		if(!$slide){
 			$this->isAjax = true;
 			$slide_thumb = wp_get_attachment_image_src($this->post['slide_id'], array('150', '150'));
@@ -99,6 +101,7 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 			$slide_full = wp_get_attachment_image_src($slide, 'full');
 			$slide_id = $slide;
 		}
+		$this->assign('slide_link', $link);
 		$this->assign('slide_thumb', $slide_thumb);
 		$this->assign('slide_full', $slide_full);
 		$this->assign('slide_id', $slide_id);
@@ -106,7 +109,7 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		$this->assign('slide_content', $content);
 	}
 	
-	public function add_parallax_slide($slide='', $title=''){
+	public function add_parallax_slide($slide='', $title='', $link=''){
 		if(!$slide){
 			$this->isAjax = true;
 			$slide_id = $this->post['slide_id'];
@@ -116,6 +119,7 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		}
 		$this->assign('slide_id', $slide_id);
 		$this->assign('slide_title', $title);
+		$this->assign('slide_link', $link);
 	}
 	
 	public function add_parallax_bg($slide=''){
@@ -138,41 +142,9 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 	public function delete_slide(){
 		$this->autoRender = false;
 		$this->isAjax = true;
-		$slides = $this->PostMeta->find(array($this->post['slider_id'], 'cp-press-slider'));
-		update_post_meta($this->post['slider_id'], 'cp-press-slider', \Set::remove($slides, $this->post['slide_id']));
-		return json_encode(true);
-	}
-
-	public function slider_view($content=array(), $col=0){
-		$this->autoRender = false;
-		$slide = $this->Slider->find(array('p' => $content['id']));
-		$slidePost = $slide->posts[0];
-		$slidersData = $this->PostMeta->find(array($slidePost->ID, 'cp-press-slider'));
-		$view = 'slider_view';
-		if($slidersData['type'] == 'cppress'){
-			$sliders = $this->cppressSlider($slidersData);
-			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
-			$this->assign('show_content', isset($slidersData['show_content']) ? true : false);
-			
-		}else if($slidersData['type'] == 'parallax'){
-			$sliders = $this->parallaxSlider($slidersData);
-			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
-			$this->assign('show_overlay', isset($slidersData['show_overlay']) ? true : false);
-			$this->assign('sub_title', isset($slidersData['sub_title']) ? $slidersData['sub_title'] : '');
-			$this->assign('next_section', isset($slidersData['next_section']) ? $slidersData['next_section'] : '');
-			$view = 'slider_view_parallax';
-		}else if($slidersData['bootstrap']){
-			$sliders = $this->bootstrapSlider($slidersData);
-			$this->assign('show_title', isset($slidersData['show_title']) ? true : false);
-			$this->assign('show_content', isset($slidersData['show_content']) ? true : false);
-		}
-		$this->assign('section_name', $content['section_name']);
-		$this->assign('show_logo', isset($slidersData['show_logo']) ? true : false);
-		$this->assign('sliders', $sliders);
-		$this->assign('slide', $slidePost);
-		$logo_slider = !is_null($this->SliderSettings->find('cppress_slider_logo')) ? $this->SliderSettings->find('cppress_slider_logo') : get_template_directory_uri().'/img/logo_slide.png';
-		$this->assign('logo_slider_img_uri', $logo_slider);
-		return $this->render(array('controller' => 'Index', 'action' => $view));
+		$slides = $this->PostMeta->find(array($this->post['container_id'], 'cp-press-slider'));
+		update_post_meta($this->post['container_id'], 'cp-press-slider', \Set::remove($slides, $this->post['id']));
+		return json_encode(array('success' => true, 'id' => $this->post['id']));
 	}
 
 	public static function save($post_id){
@@ -182,39 +154,6 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 
 			update_post_meta($post_id, 'cp-press-slider', $_POST['cp-press-slider']);
 		}
-	}
-	
-	private function cppressSlider($slidersData){
-		$sliders = array();
-		foreach($slidersData as $id => $slideData){
-			if(in_array($id, $this->sliderOptions))
-				continue;
-			$sliders[$id]['title'] = $slideData['title'];
-			$sliders[$id]['content'] = $slideData['content'];
-			$sliders[$id]['media'] = wp_get_attachment_image_src($id, 'full');
-		}
-		
-		return $sliders;
-	}
-	
-	private function parallaxSlider($slidersData){
-		$sliders = array();
-		foreach($slidersData as $id => $slideData){
-			if(in_array($id, $this->sliderOptions))
-				continue;
-			if($slideData['action'] == 'add_parallax_bg'){
-				$sliders['bg']['media'] = wp_get_attachment_image_src($id, 'full');
-			}else{
-				$sliders[$id]['title'] = $slideData['title'];
-			}
-		}
-		return $sliders;
-	}
-	
-	private function bootstrapSlider($slidersData){
-		$sliders = array();
-		
-		return $sliders;
 	}
 
 }

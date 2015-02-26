@@ -71,7 +71,9 @@ class CpOnePage {
 		add_action('widgets_init', function(){
 			CpOnePage::setup_widgets();
 		});
-
+		add_shortcode('cp_content_type', function($attr, $content){
+			return CpOnePage::dispatch_template('AdminContentType', 'shortcode', array('attr' => $attr, 'content' => $content));
+		});
 		$filtersFile = get_template_directory().DS.'view'.DS.'helpers'.DS.'Filters.php';
 		if(!file_exists($filtersFile)){
 			$filtersFile = WPCHOP.DS.'view'.DS.'helpers'.DS.'Filters.php';

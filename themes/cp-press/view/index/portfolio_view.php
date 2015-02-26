@@ -14,13 +14,18 @@
 	?>
 	<? if(isset($item['id'])): ?>
 	<div class="col-md-<?=$col?> filtrable cp-portfolio-hover" id="<? e($filter.'-'.$item['id']); ?>'" data-category="<?= $filter ?>"  data-animation="fadeInUp" style="-webkit-animation: 0s;">
+		<? if(!$hideinfo): ?>
 		<div class="cp-portfolio-item" style="overflow: hidden; height: auto;">
+		<? else: ?>
+		<div class="cp-portfolio-item" style="overflow: hidden; height: auto;" data-hide="true" <? $item['link'] != '' ? e('data-link="'.$item['link'].'"') : e('') ?>>
+		<? endif; ?>
 			<img class="lazy" src="<?= $item['image'][0] ?>" width="<?= $thumb_size['w'] ?>"  height="<?= $thumb_size['h'] ?>" alt="<?= $item['title'] ?>" style="opacity: 1;">
 			<div class="details">
 				<span class="arrow"></span>
 				<div class="title-wrap">
 					<h4><?= $item['title'] ?></h4>
 				</div>
+				<? if(!$hideinfo): ?>
 				<? if(!is_ipad() && !is_mobile()): ?>
 				<div class="info-wrap">
 				<? else: ?>
@@ -39,6 +44,7 @@
 					</div>
 					<? endif; ?>
 				</div>
+				<? endif; ?>
 			</div>
 		</div>
 	</div>

@@ -30,6 +30,8 @@ class PostType extends Model{
 		if($this->beforeFind($args)){
 			if(!isset($args['post_type']))
 				$args['post_type'] = strtolower($this->getPostType());
+			if(!isset($args['posts_per_page']))
+				$args['posts_per_page'] = -1;
 			$this->data = new \WP_Query($args);
 			$ret = $this->afterFind($this->data);
 			if($ret !== true){

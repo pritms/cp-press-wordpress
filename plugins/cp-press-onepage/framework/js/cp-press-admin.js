@@ -1,44 +1,5 @@
 jQuery(document).ready(function(){
 	var $ = jQuery;
-	var events = {
-		content_types_select: function(){
-			p = $(this).val();
-			action = p.split('_')[0];
-			section = p.split('_')[1];
-			num_col = p.split('_')[2];
-			data = {
-				action	: action,
-				section : section,
-				num_col	: num_col
-			};
-			$.getJSON(ajaxurl, data, function(response){
-				new_col = parseInt(num_col)+1;
-				if($('section[class="cp_content_type"][id="col_'+new_col+'"]').length > 0)
-					$('section[class="cp_content_type"][id="col_'+new_col+'"]').replaceWith(response.data);
-				else
-					$('#cp_press_content_type').append(response.data);
-				
-				
-				$(document).trigger("cp_press_refresh_content_types");
-				
-			});
-		},
-				
-		select_post_select: function(){
-			if($(this).val() === 'extended' || $(this).val() === 'advanced'){
-				col = parseInt($(this).attr('data-column'));
-				data = {
-					action	: 'select_post_advanced',
-					num_col : col,
-				};
-
-				$.getJSON(ajaxurl, data, function(response){
-					$('#cp_content_post_advanced_'+col).html(response.data);
-				});
-			}
-		}
-		
-	};
 	
 	$('.chpress_header_colorpick').wpColorPicker();
 	$('#cppress_logo_button').click(function() {
@@ -54,32 +15,25 @@ jQuery(document).ready(function(){
 		tb_remove();
 	}
 	
-	$(document).on('cp_press_refresh_content_types', function(){
-		$('.cp_select_post_select').bind('change', events.select_post_select);
-	});
-	$('.cp_press_content_types_select').change(events.content_types_select);
-	$('.cp_select_post_select').change(events.select_post_select);
-	
-	/*$('#cp_add_col').click(function(ev){
-		ev.preventDefault();
-		num_col = parseInt($(this).attr('data-column'));
-		post_id = parseInt($(this).attr('data-post'));
-		data = {
-			action	: 'select_content_type',
-			num_col	: num_col,
-			post	: post_id
-		};
-		
-		$.getJSON(ajaxurl, data, function(response){
-			$('#cp_press_columns').append(response.data);
-			new_col = num_col+1;
-			$('#cp_add_col').attr('data-column', new_col);
-			$('.cp_press_content_types_select').change(events.content_types_select);
-		});
-	});*/
-	
 	var section = $('#cp_press_select_content_type').cpsection();
 	section.addRow();
+	section.$element.on('click', '.cp-row-delete', function(){
+		section.deleteRow($(this));
+	});
+	section.$element.on('click', '.cp-row-ctype', function(){
+		section.cType($(this));
+	});
+	section.$element.on('click', '.cp-row-page', function(){
+		options = {
+			title: 'Select Single Page',
+			action_add: section.actionAddContent,
+			type: 'page'
+		}
+		section.cType($(this), options);
+	});
+	section.$element.on('click', '.cp-row-media', function(){
+		section.addMedia($(this));
+	});
 	
 });
 
@@ -225,9 +179,6 @@ jQuery(document).ready(function(){
 	
 	CpSection.prototype.uiEventHandlers = function(){
 		var that = this;
-		this.$element.find('.cp-row-delete').click(function(){
-			that.deleteRow($(this));
-		});
 		$.each(this.draggables, function(){
 			this.setDropable(that.$element.find('.cp-row-droppable'));
 			this.drop(that.dropOptions);
@@ -251,7 +202,7 @@ jQuery(document).ready(function(){
 		}, {content_type: contentType, row: row, col: col});
 	};
 	
-        CpSection.prototype.contentTypeEventHandler = function(){
+	CpSection.prototype.contentTypeEventHandler = function(){
 		var that = this;
 		$('.cp-select-post').change(function(){
 			var row = $(this).data('row');
@@ -264,7 +215,7 @@ jQuery(document).ready(function(){
 				$('#cp-content-post-advanced-'+row+'-'+col).empty();
 			}
 		});
-        };
+	};
         
 	CpSection.prototype.stopSortRow = function(that, ev, ui){
 		var $moved = ui.item;
@@ -328,6 +279,92 @@ jQuery(document).ready(function(){
 		});
 	};
 	
+	CpSection.prototype.addMedia = function($element){
+		var that = this;
+		var cpmedia = $.fn.cpmedia('Add new media');
+		var $box = $element.parent();
+		cpmedia.open();
+		cpmedia.mediaFrame.on('select', function(){
+			var data = {
+				row: $box.attr('data-row'),
+				col: $box.attr('data-col'),
+				type: cpmedia.selectedObj.type,
+				title: cpmedia.selectedObj.title,
+				content: '',
+				post: cpmedia.selectedObj.id
+			};
+			that.ajaxCall('add_media_content', function(response){
+				data.content = response.data;
+				that.addContent(data, $box);
+			}, {media: cpmedia.selectedObj, row: data.row, col: data.col});
+		});
+	};
+	
+	CpSection.prototype.cType = function($element, options){
+		var that = this;
+		var opt = {
+			title: 'Select Single Content Type Element',
+			action: 'ctype_modal',
+			action_add: this.actionAddCtype,
+			type: 'all'
+		};
+		opt = $.extend(opt, options);
+		console.log(opt);
+		var $cTypeBox = $element.parent();
+		var sectionId = this.$element.data('post');
+		var row = $cTypeBox.data('row');
+		var col = $cTypeBox.data('col');
+		this.ajaxCall(opt.action, function(response){
+			that.$dialog.html(response.data);
+			that.dialog(opt.title, {
+				height: $(window).width()/3,
+				buttons: {
+					Add: function(){ 
+						opt.action_add(that); 
+						$(this).dialog('close'); 
+					}
+				}
+			});
+			$("#cp-accordion").accordion({
+				icons: that.accordionIcons,
+				active: false,
+				heightStyle: "fill"
+			});
+			$( ".cp-selectable" ).selectable({
+				selected: function(event, ui) {
+					$(ui.selected).siblings().removeClass("ui-selected");
+				}
+			});
+		}, {id: sectionId, col: col, row: row, type: opt.type});
+	};
+	
+	CpSection.prototype.actionAddCtype = function(that){
+		var d = that.actionAddContent(that);
+		d.$box.append('<input type="hidden" class="cp-row-form" data-row="'+d.data.row+'" data-column="'+d.data.col+'" name="cp-press-section-rowconfig['+d.data.row+']['+d.data.col+'][content][type]" value="'+d.data.type+'" />');
+	};
+	
+	CpSection.prototype.actionAddContent = function(that){
+		var $selectedItem = $('.cp-selectable > li.ui-selected:first');
+		var selectedData = $selectedItem.data();
+		selectedData.title = $selectedItem.find('.cp-ctype-post-title').text();
+		selectedData.content =  $selectedItem.find('.cp-ctype-post-content').html();
+		return that.addContent(selectedData);
+	};
+	
+	CpSection.prototype.addContent = function(selectedData, $box){
+		if($box){
+			var $cTypeBox = $box;
+		}else{
+			var $cTypeBox = $('.cp-content-select[data-row='+selectedData.row+'][data-col='+selectedData.col+']');
+		}
+		$cTypeBox.find('h3').html(selectedData.title+' - <span style="color: #aaa;">'+selectedData.type+'</span>');
+		$($cTypeBox).find('.cp-content-selected').remove();
+		$($cTypeBox).find('input[type=hidden]').remove();
+		$cTypeBox.append('<div class="cp-content-selected">'+selectedData.content+'</div>');
+		$cTypeBox.append('<input type="hidden" class="cp-row-form" data-row="'+selectedData.row+'" data-column="'+selectedData.col+'" name="cp-press-section-rowconfig['+selectedData.row+']['+selectedData.col+'][content][id]" value="'+selectedData.post+'" />');
+		return {$box: $cTypeBox, data: selectedData};
+	};
+	
 	CpSection.prototype.deleteRow = function($element){
 		var that = this;
 		var id = parseInt($element.attr('id').split('-')[3]);
@@ -372,8 +409,20 @@ jQuery(document).ready(function(){
 		$row.attr('id', 'cp_row_'+index);
 		$row.find('.cp-row-handle').find('span').text('Row '+index);
 		$row.find('.cp-row-icons').each(function(){
-			var newId = $(this).attr('id').replace(/(cp-row-)(delete-|move-)([0-9]*)/g, '$1$2'+index);
-			$(this).attr('id', newId);
+			if($(this).attr('id')){
+				var newId = $(this).attr('id').replace(/(cp-row-)(delete-|move-)([0-9]*)/g, '$1$2'+index);
+				$(this).attr('id', newId);
+			}
+		});
+		$row.find('.cp-col').each(function(){
+			$(this).attr('data-row', index);
+			var $section = $(this).find('section.cp_content_type');
+			if($section.length){
+				var secNId = $section.attr('id').replace(/(cp-post-type-)([0-9]*)(-[0-9]*)/g, '$1'+index+'$3');
+				$section.attr('id', secNId);
+				console.log($(this).find('.cp-content-select'));
+				$(this).find('.cp-content-select').attr('data-row', index);
+			}
 		});
 	};
 	
@@ -417,7 +466,7 @@ jQuery(document).ready(function(){
 	$.fn.cpsection.Constructor = CpSection;
 }(jQuery));
 
-;(function($){
+(function($){
 	
 	$.fn.cpremove = function(){
 		$el = $(this);
@@ -455,4 +504,170 @@ jQuery(document).ready(function(){
             
         });
     };
-}(jQuery))
+}(jQuery));
+
+(function($){
+	var CpItem = function(element){
+		this.$element = $(element);
+		this.$container = this.$element.parent().parent();
+		this.$deleteDialogContent = $();
+		this.deleteInfo = {};
+		this.$dialog = $('<div class="cp_section_modal"></div>');
+		this.dialogOptions = {
+			resizable: false,
+			width: '50%',
+			height: $(window).width()/4,
+			buttons: {
+				Close: function(){
+					$(this).dialog('close');
+				}
+			},
+			close: function(){
+				$(this).remove();
+			}
+		};
+		this.sortObj = this.$element.find('tbody').cpsortable();
+		this.sortObj.setPlaceHolder("cp-item-placeholder");
+		this.sortObj.sort({
+			handle	: ".cp-row-move", 
+		});
+		this.cpAjax = null;
+	};
+	
+	CpItem.prototype.delete = function($element){
+		var that = this;
+		var id = $element.attr('id').split('-')[3];
+		var containerId = this.$element.attr('id').split('_')[1];
+		this.cpAjax.setData({id: this.slideId, container_id: this.sliderId});
+		if(!this.$element.hasClass('confirm')){
+			this.$dialog.html(this.$deleteDialogContent);
+			this.dialog(this.deleteInfo.title, {
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+					"Delete": function() {
+						that.cpAjax.call(that.deleteInfo.action, that.deleteDOM, {id: id, container_id: containerId});
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		}else{
+			that.cpAjax.call(this.deleteInfo.action, this.deleteDom, {id: id, container_id: containerId});
+		}
+	};
+	
+	CpItem.prototype.deleteDOM = function(response, context){
+		var data = $.parseJSON(response.data);
+		var selector = context.super.deleteInfo.selector.replace('%s', data.id);
+		if(data.success){
+			context.super.$element.find(selector).cpremove();
+		}
+	};
+	
+	CpItem.prototype.dialog = function(title, options){
+		this.dialogOptions.title = title;
+		dopt = $.extend(true, {}, this.dialogOptions, options);
+		this.$dialog.dialog(dopt);
+	};
+	
+	$.fn.cpitem = function(element){
+		return new CpItem(element);
+	};
+
+	$.fn.cpitem.Constructor = CpItem;
+}(jQuery));
+
+(function($){
+	var CpAjax = function(scope){
+		this.url = ajaxurl;
+		this.scope = scope;
+	}
+	
+	CpAjax.prototype.setData = function(data){
+		this.data = $.extend({}, this.data, data);
+	};
+	
+	CpAjax.prototype.call = function(action, callback, args){
+		var that = this
+		this.data = {
+			action:		action,
+		};
+		
+		data = $.extend({}, this.data, args);
+		
+		$.post(this.url, data, function(response){
+			callback(response, that.scope);
+		}, 'json');
+	}
+	
+	$.fn.cpajax = function(scope){
+		return new CpAjax(scope);
+	}
+	
+	$.fn.cpajax.Constructor = CpAjax;
+}(jQuery));
+
+(function($){
+	
+	var CpMedia = function(title, options){
+		var that = this;
+		this.selectedObj = null;
+		this.options = {
+			// Modal title
+			title: title,
+			// Enable/disable multiple select
+			multiple: true,
+			// Library WordPress query arguments.
+			library: {
+				order: 'ASC',
+				// [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo',
+				// 'id', 'post__in', 'menuOrder' ]
+				orderby: 'title',
+				// mime type. e.g. 'image', 'image/jpeg'
+				type: 'image',
+				// Searches the attachment title.
+				search: null,
+				// Attached to a specific post (ID).
+				uploadedTo: null
+			},
+			button: {
+				text: 'Set profile background'
+			}
+		};
+		this.options = $.extend(true, {}, this.options, options);
+		this.mediaFrame = new wp.media.view.MediaFrame.Select();
+
+		// Fires when a user has selected attachment(s) and clicked the select button.
+		// @see media.view.MediaFrame.Post.mainInsertToolbar()
+		this.mediaFrame.on( 'select', function(){
+			that.onSelect(that);
+		});
+	};
+	
+	CpMedia.prototype.state = function(){
+		return this.mediaFrame.state();
+	};
+	
+	CpMedia.prototype.lastState = function(){
+		return this.mediaFrame.lastState();
+	};
+	
+	CpMedia.prototype.open = function(){
+		this.mediaFrame.open();
+	};
+	
+	CpMedia.prototype.onSelect = function(that){
+		var sel = that.state().get('selection');
+		sel.map(function(a){
+			that.selectedObj = a.toJSON();
+		});
+	};
+	
+	$.fn.cpmedia = function(title, options){
+		return new CpMedia(title, options);
+	};
+	
+	$.fn.cpmedia.Constructor = CpMedia;
+	
+}(jQuery));

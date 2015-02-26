@@ -1,0 +1,339 @@
+/*
+Theme Name: Salugene Commonhelp Press Child Theme
+Author: Marco 'Marcoski' Trognoni
+Author URI: www.commonhelp.it
+Description: Tema sviluppato per Salugene
+Version: 1.0
+Template: cp-press
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags:
+*/
+
+
+@import url("../cp-press/style.css");
+@import url("style_responsive.css");
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
+#home {
+	background-color: #1598b4;
+}
+
+
+a{
+	color:#1f3e70;
+	font-weight: 600;
+	-webkit-transition: all 0.2s ease-in 0.2s;
+	-moz-transition: all  0.2s ease-in 0.2s;
+	-o-transition: all  0.2s ease-in 0.2s;
+	transition: all  0.2s ease-in 0.2s;
+}
+
+a:hover, h3 a:hover{
+	color: #3877ca;
+}
+
+section{
+	padding-bottom: 60px;
+}
+
+section:nth-child(odd) > h2{
+	color: #19365b;
+}
+
+section:nth-of-type(even) p, section:nth-of-type(even) h2, section:nth-of-type(even) h3, section:nth-of-type(even) h4, section:nth-of-type(even) h5, section:nth-of-type(even) h6,
+section:nth-of-type(even) h3.title a{
+	color: #1f3e70;;
+}
+
+
+section:nth-child(even) a{
+    color: #2f2e2e;
+}
+
+.page-title h2:after, .page-title h1:after, section > h2:after, h1.cp-static-title:after{
+	background-color: #3877ca;
+}
+
+.page-title h2, .page-title h1, section > h2, h1.cp-static-title{
+	color: #19365b;
+}
+
+section:nth-child(even){
+	background-color: #8acbd9;
+}
+section:nth-child(odd) {
+	background-color: #e1e1d9;
+}
+
+#dynamic-menu, #static-menu{
+	height: 62px;
+	background-color: #1598b4;
+}
+
+.cp-button a, .cp-form-button{
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.cp-button a:hover, .cp-form-button:hover{
+	background-color: #ad0f59;
+	border-color: #ab6988;
+}
+
+/* portfolio */
+section:nth-child(even) .cp-portfolio-item .details, .cp-portfolio-item-static .details{
+	background-color:#1598b4;
+}
+
+section:nth-child(odd) .cp-portfolio-item .details, .cp-portfolio-item-static .details{
+	background-color: #1598b4;
+}
+
+.desktop .cp-portfolio-item:hover .details{
+	background-color:#19365b;
+}
+
+.desktop .wpchop-view-layout-class-staff .cp-portfolio-item:hover .details{
+	background-color:#19365b;
+}
+
+section:nth-child(even) .cp-portfolio-item .details .arrow{
+	border-bottom-color: #1598b4;
+}
+
+section:nth-child(odd) .cp-portfolio-item .details .arrow{
+	border-bottom-color: #1598b4;
+}
+
+.desktop .wpchop-view-layout-class-staff .cp-portfolio-item:hover .details .arrow{
+	border-bottom-color:#19365b;
+}
+
+.cp-portfolio-item h4, .cp-portfolio-item-static h4{
+	color:white;
+	font-weight: bold;
+}
+
+.cp-portfolio-item, .cp-portfolio-item-static{
+	margin-bottom: 30px;
+}
+
+.cp-portfolio-item .details, .cp-portfolio-item-static .details{
+	padding: 12px 20px 10px;
+}
+
+/* slider */
+/*.wrapper .cp-slider-info{
+	padding-bottom: 10px;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: 20px 20px 0px 0px;
+	-moz-border-radius: 20px 20px 0px 0px;
+	-webkit-border-radius: 20px 20px 0px 0px;
+
+}*/
+
+.wrapper .cp-slider-info .cp-slider-logo{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.wrapper .cp-slider-info .cp-slider-title{
+	text-align: left;
+	text-transform: uppercase;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+.wrapper .cp-slider-info h1{
+	color: white;
+	font-size: 54px;
+	text-shadow: 3px -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.wrapper .cp-slider-info .cp-slider-content{
+	text-align: left;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+/* salugene top and bottom wave div */
+.cp-slider .salugene-top{
+	position: absolute;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	height: 174px;
+}
+
+.cp-slider .salugene-bottom{
+	position: absolute;
+	bottom: 50px;
+	z-index:100;
+	width: 100%;
+	height: 200px;
+}
+
+.cp-slider img.salugene-bg{
+	width: 100%;
+}
+
+
+
+.salugene-top-menu{
+	position: absolute;
+	top: 13%;
+	right: 15%;
+}
+
+.salugene-top-menu .wpchop-menu > li > a{
+	font-size: 20px;
+}
+
+.salugene-logo{
+	position: absolute;
+	top: 10px;
+	left: 15%;
+}
+
+/* splash menu */
+.cp-splash-menu ul{
+	padding: 10px 0 10px 0;
+	margin-top: 12px;
+}
+
+
+.cp-splash-menu ul li a{
+	display: block;
+	color: white;
+	font-size: 16px;
+	font-weight: 200;
+	padding-top: 10px;
+	text-decoration: none;
+}
+
+.menu-servizi-container{
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 100px;
+	padding-right: 100px;
+	width: 70%;
+	*zoom: 1;
+}
+
+.cp-splash-menu ul li a:hover{
+	text-decoration: none;
+}
+
+.desktop .cp-splash-menu ul > li {
+	float: left;
+	text-transform: uppercase;
+	margin-left: 50px;
+	height: 50px;
+	background: url('../img/icon_menu_empty.png') no-repeat top center;
+}
+
+.cp-splash-menu ul > li.current-menu-item, .cp-splash-menu ul > li:hover {
+	border-bottom:2px solid white;
+}
+
+#home .cp-splash-menu, .page .cp-splash-menu{
+	position:absolute;
+	bottom: 0;
+	background: #1598b4;
+	text-align: center;
+	height: 120px;
+	width: 100%;
+	z-index: 10;
+}
+
+.static-container .cp-splash-menu{
+	position: fixed;
+	height: 60px;
+}
+
+.desktop .static-container .cp-splash-menu ul{
+	margin-top: 0;
+}
+
+/* carousel*/
+.cp-gallery-carousel a:hover, .cp-gallery-carousel span.current-slide, .cp-events-carousel a:hover, .cp-events-carousel span.current-slide{
+	color: #ad0f59;
+}
+
+.cp-gallery-carousel .cp-arrow a:hover, .cp-events-carousel .cp-arrow a:hover{
+	background: #ad0f59;
+	cursor: pointer;
+}
+
+.desktop .container-fluid, .desktop .menu-container{
+	padding-left: 287px;
+	padding-right: 287px;
+}
+
+.cp-contact-form{
+	color: #1f3e70;
+	font-size: 14px;
+	font-family: 'Open Sans', arial, sans-serif;
+	font-weight: 400;
+	line-height: 22px;
+	margin-bottom: 5px;
+}
+
+p{
+	font-weight: 400;
+	color: #1f3e70;
+}
+
+.cp-button a{
+	background-color: #8acbd9;
+}
+
+section:nth-child(even) .cp-button a{
+	background-color: white;
+}
+
+.wpcf7-submit, .cp-content-type-list > li a{
+	width: 250px;
+	background-color: #8acbd9;
+	border-radius: 10px;
+	padding: 8px 12px !important;
+	border: 1px solid #eee;
+	font-size: 11px;
+	color: white;
+	margin: 0 2px;
+	text-transform: uppercase;
+	-webkit-transition: all 0.2s ease-in 0.2s;
+	-moz-transition: all  0.2s ease-in 0.2s;
+	-o-transition: all  0.2s ease-in 0.2s;
+	transition: all  0.2s ease-in 0.2s;
+}
+
+.wpcf7-submit:hover, .cp-content-type-list > li a:hover{
+	background-color: #19365b;
+}
+
+.cp-button a:hover, section:nth-child(even) .cp-button a:hover, section:nth-child(even) .cp-content-type-list > li a:hover{
+	background-color: #19365b;
+	border-color: #285e8e;
+}
+
+.cp-content-type-list{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.cp-content-type-list > li{
+	float: left;
+	margin-left: 10px;
+}
+
+.cp-content-type-list > li a{
+	text-decoration: none;
+}
+
+/* contact section */

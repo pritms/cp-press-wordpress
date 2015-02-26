@@ -40,12 +40,6 @@
 							value="<?php $chpress_portfolio_settings['chpress_portfolio_settings']['boxslide'] != '' ? e(esc_attr($chpress_portfolio_settings['chpress_portfolio_settings']['boxslide'])) : e('155') ?>" />
 				</td>
 			</tr>
-			<tr valign="top">
-				<th scope="row">Hide information box (this options makes all box clickable)</th>
-				<td>
-					<input name="chpress_portfolio_settings[chpress_portfolio_settings][hideinfo]" type="checkbox" value="0" <?php checked( '0', $chpress_portfolio_settings['chpress_portfolio_settings']['hideinfo'] ); ?> />&nbsp;
-				</td>
-			</tr>
 		</table>
 		<p class="submit">
 			<input type="submit" class="button-primary" value="Save" />

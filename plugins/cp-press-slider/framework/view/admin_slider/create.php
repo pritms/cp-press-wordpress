@@ -1,5 +1,5 @@
-<div id="slider-select-type">
-	<table class="widefat slider" id="slider_<?=$slider_id?>">
+<div id="slider-select-type" id="slider-select-type">
+	<table class="widefat">
 		<thead>
 		<tr>
 			<th style="width: 100px;">
@@ -22,7 +22,7 @@
 <? else: ?>
 <div id="cppress-slider" class="hide hideable">
 <? endif; ?>
-	<table class="widefat slider cppress-append-slide sortable" id="slider_<?=$slider_id?>">
+	<table class="widefat cp-slider cppress-append-slide sortable" id="slider_<?=$slider_id?>">
 		<thead>
 		<tr>
 			<th style="width: 100px;">
@@ -41,7 +41,7 @@
 			<?= $slides_body ?>
 		</tbody>
 	</table>
-	<table class="widefat slider-settings sortable" id="slider_cppress_settings_<?=$slider_id?>">
+	<table class="widefat cp-slider-settings sortable" id="slider_cppress_settings_<?=$slider_id?>">
 		<thead>
 		<tr>
 			<th style="width: 100px;">
@@ -85,8 +85,6 @@
 					<a href='#' id="parallax-slider-add" class='button alignright add-slide' data-editor='content' title='Add Slide'>
 						<span class='wp-media-buttons-icon'></span> Add Slide
 					</a>
-				</th>
-				<th>
 					<a href='#' id="parallax-slider-background" class='button alignright add-slide' data-editor='content' title='Add Slide'>
 						<span class='wp-media-buttons-icon'></span> Add Background
 					</a>

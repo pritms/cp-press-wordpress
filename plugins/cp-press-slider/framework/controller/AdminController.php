@@ -74,6 +74,15 @@ class AdminController extends \CpPressOnePage\Controller{
 		add_action('wp_ajax_delete_slide', function(){
 			CpSlider::dispatch('AdminSlider', 'delete_slide');
 		});
+		add_action('wp_ajax_slide_link_modal', function(){
+			CpSlider::dispatch('AdminLinker', 'open');
+		});
+		add_action('wp_ajax_slide_link_content', function(){
+			CpSlider::dispatch('AdminLinker', 'content');
+		});
+		add_action('wp_ajax_slide_link_delete', function(){
+			CpSlider::dispatch('AdminLinker', 'delete');
+		});
 	}
 	
 	public function admin_enqueue_scripts(){

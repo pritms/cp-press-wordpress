@@ -51,14 +51,15 @@ class IndexController extends Controller{
 		$sections = $this->Section->findAll($args);
 		$contentSections = array();
 		foreach(\Set::combine($sections->posts, '{n}.ID', '{n}.post_name') as $post_id => $post_name){
-			$content_cols = $this->PostMeta->find(array($post_id, 'cp-press-section-content'));
-			if(!empty($content_cols)){
-				foreach($content_cols as $col => $content){
-					if($content['type'] == 'Simple Text')
-						$content['type'] = 'simple_text';
-					$class = $content['ns'];
-					$content['section_name'] = $post_name;
-					$contentSections[$post_id][$col] = $class::dispatch_template($content['controller'], strtolower($content['type']).'_view', array($content, $col));
+			$section_content = $this->PostMeta->find(array($post_id, 'cp-press-section-rowconfig'));
+			if(!empty($section_content)){
+				foreach($section_content as $row => $section_content_cols){
+					foreach($section_content_cols as $col => $content){
+						if($content['type'] == 'Simple Text')
+							$content['type'] = 'simple_text';
+						$contentSections[$post_id][$row][$col]['content'] = $content['closure']['ns']::dispatch_template($content['closure']['controller'], strtolower($content['closure']['type']).'_view', array($row, $col, $content['content']));
+						$contentSections[$post_id][$row][$col]['bootstrap'] = $content['bootstrap'];
+					}
 				}
 			}
 		}
@@ -70,6 +71,12 @@ class IndexController extends Controller{
 	public function page(){
 		global $post;
 		$this->assign('gallery', CpOnePage::dispatch_template('Gallery', 'show', array($post), 'CpPressGallery'));
+		$this->assign('thumb', wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full'));
+		$this->assign('page', $post);
+	}
+	
+	public function page_slidethumb(){
+		global $post;
 		$this->assign('thumb', wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full'));
 		$this->assign('page', $post);
 	}

@@ -29,6 +29,7 @@
  * @author Marco Trognoni, <mtrognon@commonhelp.it>
  */
 namespace CpPressOnePage;
+use CpPressEvent;
 import('controller.AdminSectionController');
 class AdminController extends Controller{
 	
@@ -55,7 +56,9 @@ class AdminController extends Controller{
 				'page' => 'Page Layout',
 				'sidebar' => 'Sidebar Layout',
 				'text'	=> 'Simple Text Layout',
-				'navigation' => 'Navigation layout'
+				'navigation' => 'Navigation layout',
+				'type' => 'Single Post Type Layout',
+				'media' => 'Media Layout'
 			),
 		);
 		$this->Settings->save($sectionContentType);
@@ -102,6 +105,12 @@ class AdminController extends Controller{
 		});
 		add_action('wp_ajax_set_post_advanced', function(){
 			CpOnePage::dispatch('AdminContentType', 'postadvanced');
+		});
+		add_action('wp_ajax_ctype_modal', function(){
+			CpOnePage::dispatch('AdminContentType', 'type_modal');
+		});
+		add_action('wp_ajax_add_media_content', function(){
+			CpOnePage::dispatch('AdminContentType', 'add_media_content');
 		});
 		add_filter('manage_section_posts_columns' , function(){
 			return CpOnePage::dispatch_method('AdminSection', 'section_columns', func_get_args());

@@ -1,25 +1,13 @@
-table.portfolio tr.item td .thumb {
+table.cp-portfolio tr.cp-item td .thumb {
     position: relative;
     height: 150px;
     width: 150px;
     background-size: auto 150px;
     background-position: center;
+	margin-left: 15px;
 }
 
-table.portfolio tr.item td .thumb .delete-item {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: #EE2C2C;
-    color: white;
-    width: 16px;
-    height: 16px;
-    float: left;
-    text-align: center;
-    display: none;
-}
-
-table.portfolio tr.item td .thumb .item-details {
+table.cp-portfolio tr.cp-item td .thumb .cp-item-details {
     bottom: 0;
     left: 0;
     position: absolute;
@@ -31,15 +19,23 @@ table.portfolio tr.item td .thumb .item-details {
     opacity: 0.6;
 }
 
-table.portfolio tr.item td:hover .delete-item {
-    display: block;
+table.cp-portfolio tr.cp-item td .cp-col{
+	border: 0;
 }
 
- table tr.item input {
+table.cp-portfolio tr.cp-item-placeholder td{
+	border: 1px dashed #aeaeae;
+	background-color: #c4ffb8 !important;
+	margin: 0 1em 1em 0;
+	height: 300px;
+	background: white;
+}
+
+ table.cp-portfolio tr.cp-item input {
 	 width: 100%;
     margin: 1px 0 10px 3px;
 }
-table tr.item textarea {
+table.cp-portfolio tr.cp-item textarea {
     width: 100%;
     height: 75px;
     margin: 0 0 5px 0;
