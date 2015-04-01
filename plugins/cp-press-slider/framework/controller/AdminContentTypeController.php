@@ -102,7 +102,7 @@ class AdminContentTypeController extends \CpPressOnePage\Controller{
 	private function parallaxSlider($slidersData){
 		$sliders = array();
 		foreach($slidersData as $id => $slideData){
-			if(in_array($id, AdminSliderController::$sliderOptions))
+			if(is_string($id))
 				continue;
 			if($slideData['action'] == 'add_parallax_bg'){
 				$sliders['bg']['media'] = wp_get_attachment_image_src($id, 'full');

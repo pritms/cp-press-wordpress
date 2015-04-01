@@ -17,3 +17,113 @@ Tags:
 
 /* =Theme customization starts here
 -------------------------------------------------------------- */
+a{
+	color: #ed1c24;
+}
+a:active,
+a:hover,
+a:focus {
+    outline: 0; 
+    color: #921318 !important;
+    text-decoration: none;	  
+}
+
+
+.btn-theme-color {
+  background-color: #ed1c24;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.btn-theme-color:hover, .btn-theme-color:focus {
+  color: #fff !important;
+  background-color: #921318 !important;
+}
+
+h2.slide-btm-text {
+  text-transform: none;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.about-box-icon i, .contact-col i, .image-overlay p, .popu-post-item h5 a  {
+  color: #ed1c24;
+}
+
+h1.slide-logo {
+	background-image: url(home.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	color: transparent;
+	height: 75px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.navbar-brand {
+	background-image: url(logo_tmp.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 70px;
+	font-size: 42px !important;
+}
+
+@media(max-width:360px){
+
+   .navbar-brand {
+	    margin-left: 15px !important;
+		background-image: url(logo_smart.png);
+		padding-left: 33px;
+		font-size: 29px !important;
+	}
+
+}
+@media only screen and (max-device-width: 480px) and (orientation : landscape) {
+	.navbar-brand {
+	    margin-left: 15px !important;
+		background-image: url(logo_smart.png);
+		padding-left: 33px;
+		font-size: 29px !important;
+	}
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #ed1c24 !important;
+  background-color: transparent;
+}
+
+.contact-info-box{
+	color: white;
+}
+
+.scrollToTop {
+  background: #921318;
+}
+
+.comment-list {
+  border-bottom: 1px solid #921318;
+}
+
+.pagination>li>a, .pagination>li>span {
+    background-color: #ed1c24;
+    border: 1px solid #921318;
+}
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+    background-color: #921318;
+    border-color: #921318;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover{
+	background-color: #f4555b;
+	border-color: #921318;
+}
+
+.tooltip-inner{
+	background-color: #f4555b !important;
+}
+
+.tooltip.top .tooltip-arrow {
+  border-top-color: #f4555b;
+}
+
+

@@ -729,7 +729,7 @@ bootstrap overrides badge and pagination
     margin-bottom: 30px;
 }
 /*mix it up filter*/
-#grid .mix{
+.cp-mixitup .mix{
     display: none;
     opacity: 0;
 }
@@ -875,7 +875,7 @@ bootstrap overrides badge and pagination
     margin-bottom: 20px;
     font-weight: 400 !important;
 }
-.contact-sec-2{
+#contact-info{
     padding: 40px 0;
     background-color: #333;
     border-top:1px solid #222;
@@ -901,12 +901,19 @@ bootstrap overrides badge and pagination
 #footer .copyright span{
     color:#fff;
 }
-.footer-nav ul{
+.menu-navigation-container ul{
     float:right;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
-.footer-nav ul li a{
+
+.menu-navigation-container ul > li {
+	display: inline-block;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.menu-navigation-container ul li a{
     color:#fff;
     text-transform: uppercase;
     font-weight: 600;
@@ -1005,10 +1012,10 @@ bootstrap overrides badge and pagination
         width:100%;
         margin-bottom: 15px;
     }
-    .footer-nav{
+    .menu-navigation-container{
         text-align: center;
     }
-    .footer-nav ul{
+    .menu-navigation-container ul{
         float:none;
     }
     .call-sec{
@@ -1039,7 +1046,7 @@ bootstrap overrides badge and pagination
         margin-bottom: 20px;
     }
     .main-flex-slider h1{
-        font-size: 3.5em;
+        font-size: 3em;
         font-weight: 700;
         margin-bottom: 30px;
     }
@@ -1255,4 +1262,9 @@ label span{
 }
 .dropdown-menu>li>a{
     padding: 8px 20px;
+}
+
+
+.cp-item-link span{
+	font-size: 4em;
 }

@@ -1,8 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html class="desktop">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="format-detection" content="telephone=no" />
 
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
@@ -31,7 +32,6 @@
 	?>
 </title>
 <?php wp_head(); ?>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/site.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 <? \CpPressOnePage\CpOnePage::dispatch('Assets', 'inline_styles'); ?>
 <!--[if lt IE 9]>
@@ -41,41 +41,5 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'template_directory' ); ?>/css/ie8.css" />
 <![endif]-->
 </head>
-<body <?php if(is_page() || is_single()) : ?> class="page"<?php endif; ?>>
-	<div id="site-wrapper" style="opacity: 0; visibility: hidden;">
-		<div class="head-wrapper">
-			<div class="wpchop-menu-sticky" id="static-menu">
-
-				<!--main bar-->
-				<div class="menu-container">
-					<header class="row">
-						<div class="col-md-12">
-							<?php if(!is_smartphone()): ?>
-							<!-- logo -->
-							<?php
-								\CpPressOnePage\CpOnePage::dispatch('header', 'logo');
-							?>
-							<!--main navigation-->
-							<nav class="wpchop-menu-main wpchop-menu-main-static">
-								<?php
-									\CpPressOnePage\CpOnePage::dispatch('menu', 'main');
-								?>
-
-							</nav>
-							<?php else: ?>
-							<nav class="wpchop-menu-main wpchop-menu-main-dynamic">
-								<div class="menu-toggle">
-									<b class="icon-menu"></b>
-								</div>
-								<?php
-									\CpPressOnePage\CpOnePage::dispatch('menu', 'main');
-								?>
-							</nav>
-							<? endif; ?>
-
-						</div>
-					</header><!-- end header  -->
-				</div><!--end container-->
-			</div><!--end sticky bar-->
-
-			</div> <!-- end head wrapper -->
+<body <?php if(is_page() || is_single()) : ?> class="page"<?php endif; ?> data-spy="scroll" data-target="#navigation" data-offset="75">
+	

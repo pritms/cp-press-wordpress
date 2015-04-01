@@ -75,6 +75,14 @@ class MenuController extends Controller{
 		$this->assign('menu', $id);
 		return $this->render();
 	}
+	
+	public function navbar_single(){
+		$walker = new WalkerNavMenuCPPress();
+		$this->assign('walker', $walker);
+		$walker->object = 'section';
+		$this->assign('menu', 'header-menu');
+		return $this->render(array('action' => 'navbar'));
+	}
 
 }
 

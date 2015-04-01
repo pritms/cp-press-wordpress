@@ -11,7 +11,12 @@
 			)
 		);
 		register_sidebar(array(
-				'name' => 'navigation',
+				'name' => 'footer-nav',
+				'class' => 'footer-nav',
+				'before_widget' => '',
+				'after_widget'  => '',
+				'before_title'  => '',
+				'after_title'   => ''
 			)
 		);
 		register_nav_menus(

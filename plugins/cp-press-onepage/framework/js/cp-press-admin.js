@@ -1,7 +1,7 @@
 jQuery(document).ready(function(){
 	var $ = jQuery;
 	
-	$('.chpress_header_colorpick').wpColorPicker();
+	$('.chpress_header_colorpick, .cp-color-picker').wpColorPicker();
 	$('#cppress_logo_button').click(function() {
 		formfield = $('#cppress_logo').attr('name');
 		tb_show('', 'media-upload.php?type=image&TB_iframe=true');
@@ -34,6 +34,29 @@ jQuery(document).ready(function(){
 	section.$element.on('click', '.cp-row-media', function(){
 		section.addMedia($(this));
 	});
+	section.$element.on('click', '.cp-row-faicon', function(){
+		section.addFaIcon($(this));
+	});
+	section.$element.on('click', '.cp-reactable', function(){
+		section.reactable($(this));
+	});
+	
+	var $linkTable = $('table.cp-link');
+	if($linkTable.length){
+		var linker = $linkTable.cplinkitem();
+		linker.super.$element.on('click.delete', '.cp-row-delete', function(){
+			linker.super.delete($(this));
+		});
+		linker.super.$element.on('click.addimage', '.cp-row-image', function(){
+			linker.addMedia($(this));
+		});
+		linker.super.$element.find('.add-link').on('click.addLink', function(event){
+			event.preventDefault();
+			if(!$(this).hasClass('disabled')){
+				linker.addLink($(this));
+			}
+		});
+	}
 	
 });
 
@@ -127,7 +150,16 @@ jQuery(document).ready(function(){
 }(jQuery));
 
 (function($){
-	
+    /*$.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+    	_renderItem: function( ul, item ) {
+    		var li = $( "<li>", { text: item.label } );
+    		if ( item.disabled ) {
+    			li.addClass( "ui-state-disabled" );
+    		}
+    		$( "<span>", {"class": "fa " + item.element.attr( "data-class" )}).appendTo( li );
+    		return li.appendTo( ul );
+    	}
+    });*/
 	var CpSection = function (element){
 		var that = this;
 		this.columns = 0;
@@ -198,7 +230,8 @@ jQuery(document).ready(function(){
 				$('#cp-row-form').append($(this));
 			});
 			$('#cp-tmp-form').remove();
-                        that.contentTypeEventHandler();
+			$('.cp-color-picker').wpColorPicker();
+            that.contentTypeEventHandler();
 		}, {content_type: contentType, row: row, col: col});
 	};
 	
@@ -279,6 +312,54 @@ jQuery(document).ready(function(){
 		});
 	};
 	
+	CpSection.prototype.addFaIcon = function($element){
+		var that = this;
+		var $cBox = $element.parent();
+		var sectionId = this.$element.data('post');
+		var row = $cBox.data('row');
+		var col = $cBox.data('col');
+		this.ajaxCall('add_faicon_modal', function(response){
+			that.$dialog.html(response.data);
+			that.dialog('Add Icon', {
+				height: $(window).width()/3,
+				buttons: {
+					Add: function(){ 
+						that.actionAddIcon(that);
+						$(this).dialog('close'); 
+					}
+				}
+			});
+			$( ".cp-selectable" ).selectable({
+				selected: function(event, ui) {
+					$(ui.selected).siblings().removeClass("ui-selected");
+				}
+			});
+			$("input.cp-filter").on('keyup', function(){
+				that.filterIcon($(this));
+			});
+		}, {id: sectionId, col: col, row: row});
+		
+	};
+	
+	CpSection.prototype.filterIcon = function($element){
+		if($element.val().length > 1){
+			$('.cp-box-faicon').not(':contains('+$element.val()+')').parent().hide();
+			$('.cp-box-faicon:hidden').has(':contains('+$element.val()+')').parent().show();
+		}else{
+			$('.cp-box-faicon').parent().show();
+		}
+	};
+	
+	CpSection.prototype.actionAddIcon = function(that){
+		var $selectedItem = $('.cp-selectable > li.ui-selected:first');
+		var selectedData = $selectedItem.data();
+		var $cBox = $('.cp-content-select[data-row='+selectedData.row+'][data-col='+selectedData.col+']');
+		$cBox.find('h3.cp-faicon-title').html('Icon '+selectedData.icon+' - <span style="color: #aaa; font-size: 20px;" class="fa '+selectedData.icon+'"></span>');
+		$cBox.find('input.cp-input-faicon').remove();
+		$cBox.append('<input type="hidden" class="cp-row-form cp-input-faicon" data-row="'+selectedData.row+'" data-column="'+selectedData.col+'" name="cp-press-section-rowconfig['+selectedData.row+']['+selectedData.col+'][content][icon]" value="'+selectedData.icon+'" />');
+		$cBox.next('.cp-content-options').find('.cp-content-icon-options:hidden').show();
+	};
+	
 	CpSection.prototype.addMedia = function($element){
 		var that = this;
 		var cpmedia = $.fn.cpmedia('Add new media');
@@ -309,7 +390,6 @@ jQuery(document).ready(function(){
 			type: 'all'
 		};
 		opt = $.extend(opt, options);
-		console.log(opt);
 		var $cTypeBox = $element.parent();
 		var sectionId = this.$element.data('post');
 		var row = $cTypeBox.data('row');
@@ -358,8 +438,8 @@ jQuery(document).ready(function(){
 			var $cTypeBox = $('.cp-content-select[data-row='+selectedData.row+'][data-col='+selectedData.col+']');
 		}
 		$cTypeBox.find('h3').html(selectedData.title+' - <span style="color: #aaa;">'+selectedData.type+'</span>');
-		$($cTypeBox).find('.cp-content-selected').remove();
-		$($cTypeBox).find('input[type=hidden]').remove();
+		$cTypeBox.find('.cp-content-selected').remove();
+		$cTypeBox.find('input[type=hidden]').remove();
 		$cTypeBox.append('<div class="cp-content-selected">'+selectedData.content+'</div>');
 		$cTypeBox.append('<input type="hidden" class="cp-row-form" data-row="'+selectedData.row+'" data-column="'+selectedData.col+'" name="cp-press-section-rowconfig['+selectedData.row+']['+selectedData.col+'][content][id]" value="'+selectedData.post+'" />');
 		return {$box: $cTypeBox, data: selectedData};
@@ -457,7 +537,12 @@ jQuery(document).ready(function(){
 			});
 			that.uiEventHandlers();
 		}, {'cols': colConfig, 'rows': rows});
-	}
+	};
+	
+	CpSection.prototype.reactable = function($element){
+		$element.next('.cp-reactable-form').show();
+		$element.hide();
+	};
 	
 	$.fn.cpsection = function(){
 		return new CpSection(this);
@@ -669,5 +754,99 @@ jQuery(document).ready(function(){
 	};
 	
 	$.fn.cpmedia.Constructor = CpMedia;
+	
+}(jQuery));
+
+(function($){
+	
+	var CpLinkItem = function(element){
+		this.super = new $.fn.cpitem(element);
+		CpLinkItem.prototype.constructor = CpLinkItem;
+		
+		this.init();
+	};
+	
+	CpLinkItem.prototype.init = function(){
+		this.$links = this.super.$element.find('.cp-link');
+		this.super.$deleteDialogContent = $("<p><span class=\"ui-icon ui-icon-alert\" style=\"float:left; margin:0 7px 20px 0;\"></span>These link will be deleted from this content. Are you sure?</p>");
+		this.super.deleteInfo = {
+			title		: 'Delete Link',
+			action		: 'delete_link',
+			selector	: 'tr.cp-link[data-link=%s]'
+		};
+		this.super.cpAjax = $.fn.cpajax(this);
+		this.accordionIcons = {
+			header: "ui-icon-circle-arrow-e",
+			activeHeader: "ui-icon-circle-arrow-s"
+		};
+	};
+	
+	CpLinkItem.prototype.addLink = function($element){
+		var that = this;
+		var content = this.super.$element.attr('id').split('_')[1];
+		
+		this.super.cpAjax.call('add_link_modal', function(response){
+			that.super.$dialog.html(response.data);
+			that.super.dialog('Add Link', {
+				height: 200,
+				buttons: {
+					Add: function(){ that.actionAddLink(that, $(this)); }
+				}
+			});
+			$('.cp-link-url').on('keypress', 'input.cp-filter', function(event){
+				if(event.keyCode == 13){
+					that.linkInfo($(this));
+				}
+			});
+			$('.cp-link-url').find('input.cp-filter').blur(function(event){
+				that.linkInfo($(this));
+			});
+		}, {content_id: content});
+	};
+	
+	CpLinkItem.prototype.linkInfo = function($element){
+		var $status = $('.cp-link-status');
+		if(this.isUrl($element.val())){
+			$status.find('.error').remove();
+			$status.html('<div style="width:99%; padding: 5px;" class="updated below-h2">Url is valid!!!</div>');
+		}else{
+			$status.find('.updated').remove();
+			$status.html('<div style="width:99%; padding: 5px;" class="error form-invalid below-h2">Invalid url</div>');
+		}
+	};
+	
+	CpLinkItem.prototype.actionAddLink = function(that, $dialog){
+		var that = this;
+		uri = $dialog.find('input.cp-filter').val();
+		this.super.cpAjax.call('process_link', function(response){
+			that.super.$element.append(response.data);
+			$dialog.dialog('close');
+		}, {uri: uri});
+	};
+	
+	CpLinkItem.prototype.addMedia = function($element){
+		var that = this;
+		var cpmedia = $.fn.cpmedia('Add new media');
+		var id = $element.attr('id').split('-')[3];
+		cpmedia.open();
+		cpmedia.mediaFrame.on('select', function(){
+			var imgUri = cpmedia.selectedObj.sizes.thumbnail.url;
+			$img = that.super.$element.find('#cp_link_'+id).find('.cp-link-image');
+			$imgInput = that.super.$element.find('#cp_link_'+id).find('input[name="cp-press-link['+id+'][image]"]');
+			$img.attr('src', imgUri);
+			$imgInput.val(imgUri);
+		});
+	};
+	
+	CpLinkItem.prototype.isUrl = function(s) {
+		var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+		return regexp.test(s);
+	}
+	
+	$.fn.cplinkitem = function(){
+		return new CpLinkItem(this);
+	};
+
+	$.fn.cplinkitem.Constructor = CpLinkItem;
 	
 }(jQuery));

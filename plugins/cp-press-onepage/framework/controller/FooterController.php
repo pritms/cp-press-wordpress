@@ -40,5 +40,9 @@ class FooterController extends Controller{
 		return $this->render();
 	}
 	
+	public function single(){
+		return $this->render();
+	}
+	
 }
 ?>

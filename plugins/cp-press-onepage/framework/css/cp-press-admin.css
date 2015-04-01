@@ -867,6 +867,14 @@ section.cp_content_type{
 	content: '\f496';
 }
 
+.cp-row-faicon:hover{
+	color: #0c49c4;
+}
+
+.cp-row-faicon:before{
+	content: '\f128';
+}
+
 .cp-content-select .cp-row-icons{
 	float: left;
 }
@@ -913,6 +921,24 @@ table tr.cp-item-placeholder td{
 	height: 18px; 
 }
 
+.cp-faicon-modal {  
+	width: 100%; 
+}
+.cp-selectable.cp-faicon-modal li {
+	margin: 3px;
+	padding: 10px;
+	float: left;
+	width: 120px;
+	height: 60px;
+	font-size: 3em;
+	text-align: center;
+}
+
+.cp-selectable.cp-faicon-modal li label{
+	display: block;
+	font-size: 12px;
+}
+
 .thumb .media-details {
     top: 0;
     left: 0;
@@ -923,6 +949,94 @@ table tr.cp-item-placeholder td{
     text-transform: uppercase;
     font-size: 9px;
     opacity: 0.6;
+}
+
+.cp-color-picker-label{
+	vertical-align: super;
+}
+
+.cp-reactable{
+	cursor: pointer;
+}
+
+.cp-filter-box{
+	width: 100%;
+	height: 30px;
+	padding: 10px 0 10px 0;
+}
+
+.cp-filter-container{
+	width: 100%;
+	vertical-align: middle;
+	white-space: nowrap;
+	position: relative;
+}
+
+.cp-filter-container .cp-filter-icon{
+	position: absolute;
+	top: 50%;
+	margin-left: 15px;
+	margin-top: 3px;
+	z-index: 1;
+	color: #222222;
+}
+
+.cp-filter-container input.cp-filter{
+	width: 100%;
+	height: 24px;
+	background: #0074a2;
+	border: none;
+	font-size: 10pt;
+	float: left;
+	color: #e5e5e5;
+	padding-left: 45px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-transition: background .55s ease;
+	-moz-transition: background .55s ease;
+	-ms-transition: background .55s ease;
+	-o-transition: background .55s ease;
+	transition: background .55s ease;
+	margin-left: 3px;
+}
+
+.cp-filter-container input.cp-filter:hover, .cp-filter-container input.cp-filter:focus, .cp-filter-container input.cp-filter:active{
+	outline:none;
+	background: #ffffff;
+}
+
+.cp-filter-container input.cp-filter::-webkit-input-placeholder {
+	color: #e5e5e5;
+}
+ 
+.cp-filter-container input.cp-filter:-moz-placeholder { /* Firefox 18- */
+	color: #e5e5e5;  
+}
+ 
+.cp-filter-container input.cp-filter::-moz-placeholder {  /* Firefox 19+ */
+	color: #e5e5e5;  
+}
+ 
+.cp-filter-container input.cp-filter:-ms-input-placeholder {  
+	color: #e5e5e5;  
+}
+
+table.cp-link tr.cp-link input {
+  width: 100%;
+  margin: 1px 0 10px 3px;
+}
+
+table.cp-link tr.cp-link textarea {
+    width: 100%;
+    height: 75px;
+    margin: 0 0 5px 0;
+}
+
+.cp-link-image{
+	margin-left: 12px;
+	border: 1px solid #e5e5e5;
+	padding: 3px;
 }
 
 

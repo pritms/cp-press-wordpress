@@ -80,6 +80,7 @@ class AdminSectionController extends Controller{
 			foreach($colsDb as $col => $data){
 				$rows[$row][$col]['bootstrap'] = $data['bootstrap'];
 				if(isset($data['content'])){
+					$data['content']['section'] = $post->post_name;
 					$rows[$row][$col]['content'] = 
 							$data['closure']['ns']::dispatch_template(
 									$data['closure']['controller'], 

@@ -53,11 +53,15 @@ class IndexController extends Controller{
 		foreach(\Set::combine($sections->posts, '{n}.ID', '{n}.post_name') as $post_id => $post_name){
 			$section_content = $this->PostMeta->find(array($post_id, 'cp-press-section-rowconfig'));
 			if(!empty($section_content)){
+				
 				foreach($section_content as $row => $section_content_cols){
 					foreach($section_content_cols as $col => $content){
-						if($content['type'] == 'Simple Text')
-							$content['type'] = 'simple_text';
-						$contentSections[$post_id][$row][$col]['content'] = $content['closure']['ns']::dispatch_template($content['closure']['controller'], strtolower($content['closure']['type']).'_view', array($row, $col, $content['content']));
+						$content['content']['section_name'] = $post_name;
+						if(isset($content['closure'])){
+							$contentSections[$post_id][$row][$col]['content'] = $content['closure']['ns']::dispatch_template($content['closure']['controller'], strtolower($content['closure']['type']).'_view', array($row, $col, $content['content']));
+						}else{
+							$contentSections[$post_id][$row][$col]['content'] = '';
+						}
 						$contentSections[$post_id][$row][$col]['bootstrap'] = $content['bootstrap'];
 					}
 				}
@@ -118,12 +122,60 @@ class IndexController extends Controller{
 		$this->assign('thumb', wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full'));
 		$this->assign('post', $post);
 	}
-
-	public function single_product(){
+	
+	public function single_blog($childView=false, $view=null, $options=array()){
 		global $post;
-		$this->assign('gallery', CpOnePage::dispatch_template('Gallery', 'show', array($post), 'CpPressGallery'));
-		$this->assign('thumb', wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full'));
+		if($childView){
+			$this->isChildView = true;
+			if(!is_null($view))
+				$this->template = $view;
+		}
+		$this->assign('menu', \CpPressOnePage\CpOnePage::dispatch_template('Menu', 'navbar_single'));
+		if (class_exists('MultiPostThumbnails')) {
+			$thumbId = \MultiPostThumbnails::get_post_thumbnail_id(get_post_type(), 'blog-image', $post->ID);
+			$headBgId = get_post_thumbnail_id($post->ID);
+		}else{
+			$thumbId = get_post_thumbnail_id($post->ID);
+			$headBgId = $thumbId;
+		}
+		$othersQuery = $this->PostType->findAll(array(
+			'post_type' => get_post_type(),
+			'post__not_in' => array($post->ID)
+		));
+		$others = array();
+		foreach($othersQuery->posts as $otherPost){
+			$others[$otherPost->ID]['thumb'] = wp_get_attachment_image_src(get_post_thumbnail_id($otherPost->ID), 'full');
+			$others[$otherPost->ID]['title'] = $otherPost->post_title;
+			$others[$otherPost->ID]['content'] = $otherPost->post_excerpt;
+			$others[$otherPost->ID]['permalink'] = get_permalink($otherPost->ID);
+			$others[$otherPost->ID]['subtitle'] = get_post_meta($otherPost->ID, 'cp-press-section-subtitle', true);
+		}
+		$this->assign('others', $others);
+		$this->assign('thumb', wp_get_attachment_image_src($thumbId, 'full'));
+		$this->assign('head_bg', wp_get_attachment_image_src($headBgId, 'full'));
 		$this->assign('post', $post);
+	}
+	
+	public function single_post($childView=false, $view=null, $options=array()){
+		global $post;
+		if($childView){
+			$this->isChildView = true;
+			if(!is_null($view))
+				$this->template = $view;
+		}
+		$this->assign('menu', \CpPressOnePage\CpOnePage::dispatch_template('Menu', 'navbar_single'));
+	}
+	
+	public function taxonomy($childView=false, $view=null, $options=array()){
+		global $wp_query;
+		
+		if($childView){
+			$this->isChildView = true;
+			if(!is_null($view))
+				$this->template = $view;
+		}
+		$this->assign('menu', \CpPressOnePage\CpOnePage::dispatch_template('Menu', 'navbar_single'));
+		$this->assign('navpaged', \CpPressOnePage\CpOnePage::dispatch_template('Index', 'post_numeric_nav', array($childView, $view)));
 	}
 
 	public function under_construction(){
@@ -138,11 +190,54 @@ class IndexController extends Controller{
 	}
 
 	public function archive(){
-
+		
 	}
 
 	public function tag(){
 
+	}
+	
+	public function post_numeric_nav($childView = false, $view=null){
+		$this->autoRender = false;
+		global $wp_query;
+		//query_posts(array('posts_per_page' => 1));
+		if($childView){
+			$this->isChildView = true;
+			if(!is_null($view))
+				$this->template = $view."_numeric_nav";
+		}
+		
+		if(is_singular()){
+			return;
+		}
+		
+		/** Stop execution if there's only 1 page */
+		if( $wp_query->max_num_pages <= 1 ){
+			return;
+		}
+
+		$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+		$max   = intval( $wp_query->max_num_pages );
+		/**	Add current page to the array */
+		if ( $paged >= 1 )
+			$links[] = $paged;
+
+		/**	Add the pages around the current page to the array */
+		if ( $paged >= 3 ) {
+			$links[] = $paged - 1;
+			$links[] = $paged - 2;
+		}
+
+		if ( ( $paged + 2 ) <= $max ) {
+			$links[] = $paged + 2;
+			$links[] = $paged + 1;
+		}
+		
+		$this->assign('links', $links);
+		$this->assign('max', $max);
+		$this->assign('paged', $paged);
+		
+		return $this->render();
 	}
 
 }

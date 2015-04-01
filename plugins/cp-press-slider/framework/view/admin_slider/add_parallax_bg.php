@@ -1,4 +1,4 @@
-<tr class="cp-slide" id="parallax-background">
+<tr class="cp-slide" id="parallax-background" data-slide="<?= $slide_id ?>">
 	<td colspan="3">
 		<div id="cp_slide_<?= $slide_id ?>" class="cp-rows row cp-postbox">
 			<div class="cp-row-icons cp-row-delete" id="cp-slide-delete-<?= $slide_id ?>" title="Delete Background"></br></div>

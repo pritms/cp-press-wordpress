@@ -1,17 +1,19 @@
 jQuery(document).ready(function(){
 	var $ = jQuery;
-	
-	var portfolio = $('table.cp-portfolio').cpportfolioitem();
-	portfolio.super.$element.on('click.delete', '.cp-row-delete', function(){
-		portfolio.super.delete($(this));
-	});
-	
-	portfolio.super.$element.find('.add-item').on('click.addItem', function(event){
-		event.preventDefault();
-		if(!$(this).hasClass('disabled')){
-			portfolio.addItem($(this));
-		}
-	});
+	var $portfolioTable = $('table.cp-portfolio');
+	if($portfolioTable.length){
+		var portfolio = $portfolioTable.cpportfolioitem();
+		portfolio.super.$element.on('click.delete', '.cp-row-delete', function(){
+			portfolio.super.delete($(this));
+		});
+		
+		portfolio.super.$element.find('.add-item').on('click.addItem', function(event){
+			event.preventDefault();
+			if(!$(this).hasClass('disabled')){
+				portfolio.addItem($(this));
+			}
+		});
+	}
 	
 });
 

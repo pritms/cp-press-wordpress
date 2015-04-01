@@ -70,25 +70,33 @@ $(window).resize(close_toggle);
 Smooth Scroll To Anchor
 =============================================== */
 $(function() {
-	  $('.scrollto a[href*=#]:not([href=#])').click(function() {
-	    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+	$('.scrollto a[href*=#]:not([href=#])').click(function() {
+	  if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
 
-	      var target = $(this.hash);
-	      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-	      if (target.length) {
-	        $('html,body').animate({
-	          scrollTop: target.offset().top - 50
-	        }, 1000);
-	        return false;
-	      }
-	    }
-	  });
+		var target = $(this.hash);
+		target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+		if (target.length) {
+		  $('html,body').animate({
+			scrollTop: target.offset().top - 50
+		  }, 1000);
+		  return false;
+		}
+	  }
 	});
+});
 
 /*=========================*/
      /*========portfolio mix====*/
      /*==========================*/
-    $('#grid').mixitup();
+    
+    
+    /*=========================*/
+     /*========on hover dropdown navigation====*/
+     /*==========================*/
+     
+     
+$(document).ready(function() {
+    $('.cp-mixitup').mixitup();
     
        /*=========================*/
      /*========tooltip and popovers====*/
@@ -110,15 +118,6 @@ $(function() {
       }
     );
     wow.init();
-    
-    
-    /*=========================*/
-     /*========on hover dropdown navigation====*/
-     /*==========================*/
-     
-     
-     $(document).ready(function() {
-
     $('.js-activated').dropdownHover({
         instantlyCloseOthers: false,
         delay: 0

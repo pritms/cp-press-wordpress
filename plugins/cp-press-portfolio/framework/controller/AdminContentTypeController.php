@@ -62,12 +62,19 @@ class AdminContentTypeController extends \CpPressOnePage\Controller{
 		$portfolioPost = $portfolio->posts[0];
 		$portfolioData = $this->PostMeta->find(array($portfolioPost->ID, 'cp-press-portfolio'));
 		$items = array();
+		$filters = array();
 		if(isset($portfolioData) && !empty($portfolioData)){
 			$i=0;
 			foreach($portfolioData as $id => $item){
 				if(in_array($id, AdminPortfolioController::$portfolioOptions))
 					continue;
 				$itemPost = $this->Post->find(array('p' => $id, 'post_type' => $item['type']))->posts[0];
+				$filters[$id] = wp_get_post_terms($id, 'filter');
+				if(isset($filters[$id]) && !empty($filters[$id])){
+					foreach($filters[$id] as $filter){
+						$items[$i]['filters'][] = $filter->name; 
+					}
+				}
 				$items[$i]['image'] = wp_get_attachment_image_src(get_post_thumbnail_id($itemPost->ID), 'full');
 				$items[$i]['title'] = $itemPost->post_title;
 				$items[$i]['caption'] = $itemPost->post_excerpt;
@@ -90,6 +97,8 @@ class AdminContentTypeController extends \CpPressOnePage\Controller{
 					$k++;
 				}
 			}
+			
+			$this->assign('filters', $this->getFilters($filters));
 			$this->assign('col', $this->fluidGrid[$portfolioData['item_per_row']]);
 			$this->assign('coffset', ceil($this->fluidGrid[$portfolioData['item_per_row']])/2);
 			$this->assign('thumb_size', $portfolioData['thumb']);
@@ -100,6 +109,15 @@ class AdminContentTypeController extends \CpPressOnePage\Controller{
 			$this->assign('hideinfo', isset($portfolioData['hideinfo']) ? true : false);
 		}
 		return $this->render(array('controller' => 'Index'));
+	}
+	
+	private function getFilters($terms){
+		$filters = array();
+		foreach($terms as $taxonomies){
+			foreach($taxonomies as $term)
+				$filters[$term->term_id] = $term->name;
+ 		}
+		return $filters;
 	}
 }
 

@@ -1,4 +1,4 @@
-<tr class='cp-slide'>
+<tr class='cp-slide' data-slide="<?= $slide_id ?>">
 	<td colspan="3">
 		<div id="cp_slide_<?= $slide_id ?>" class="cp-rows row cp-postbox">
 			<div class="cp-row-icons cp-row-delete" id="cp-slide-delete-<?= $slide_id ?>" title="Delete Slide"></br></div>
@@ -11,10 +11,10 @@
 				<? endif; ?>
 			</h3>
 			<div class="cp-inside">
-				<div class="cp-col col-md-12">
-					<input type="hidden" name="cp-press-slider[<?= $slide_id ?>][id]" value="<?= $slide_id ?>" />
-					<input type="hidden" name="cp-press-slider[<?= $slide_id ?>][action]" value="add_parallax_slide" />
-					<label for="cp-press-slider">Slide Text </label><input data-slide="<?= $slide_id ?>" type='text' name='cp-press-slider[<?= $slide_id ?>][title]' value='<?= $slide_title ?>'/>
+				<div class="cp-col-parallax col-md-12">
+					<input type="hidden" name="cp-press-slider[<?= $slide_num ?>][id]" value="<?= $slide_id ?>" />
+					<input type="hidden" name="cp-press-slider[<?= $slide_num ?>][action]" value="add_parallax_slide" />
+					<label for="cp-press-slider">Slide Text </label><input data-slide="<?= $slide_id ?>" type='text' name='cp-press-slider[<?= $slide_num ?>][title]' value='<?= $slide_title ?>'/>
 				</div>
 			</div>
 		</div>

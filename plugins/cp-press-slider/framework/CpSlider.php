@@ -43,6 +43,7 @@ class CpSlider extends CpOnePage{
 			'has_archive'	=> false,
 			'taxonomies'	=> array(),
 			'supports'		=> array('title'),
+			'menu_icon'		=> 'dashicons-media-interactive',
 			'labels'		=> array(
 				'name'					=> 'Sliders',
 				'singular_name'			=> 'Slider',

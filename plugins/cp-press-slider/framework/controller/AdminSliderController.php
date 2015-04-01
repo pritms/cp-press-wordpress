@@ -37,22 +37,8 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 	public static $sliderOptions = array('show_title', 'show_content', 'show_logo', 'run_effect', 'type', 'sub_title', 'show_overlay', 'next_section');
 
 	public function create($post, $box){
-		$sliders = $this->PostMeta->find(array($post->ID, 'cp-press-slider'));
-		$content = '';
-		if(!empty($sliders)){
-			foreach($sliders as $key => $slide){
-				if(!in_array($key, self::$sliderOptions)){
-					$params = array($slide['id']);
-					if(isset($slide['title']))
-						array_push($params, $slide['title']);
-					if(isset($slide['content']))
-						array_push ($params, $slide['content']);
-					if(isset($slide['link']))
-						array_push ($params, $slide['link']);
-					$content .= CpSlider::dispatch_template('AdminSlider', $slide['action'], $params);
-				}
-			}
-		}
+		list($content, $sliders) = $this->createContent($post->ID);
+		$this->assign('slides_body', $content);
 		$this->assign('show_title', isset($sliders['show_title']) ? $sliders['show_title'] : '');
 		$this->assign('show_content', isset($sliders['show_content']) ? $sliders['show_content'] : '');
 		$this->assign('show_logo', isset($sliders['show_logo']) ? $sliders['show_logo'] : '');
@@ -62,6 +48,27 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		$this->assign('next_section', isset($sliders['next_section']) ? $sliders['next_section'] : '');
 		$this->assign('slides_body', $content);
 		$this->assign('slider_id', $post->ID);
+	}
+	
+	public function create_cppress(){
+		$this->isAjax = true;
+		list($content, $sliders) = $this->createContent($this->post['slider_id'], 'cppress');
+		$this->assign('slides_body', $content);
+		$this->assign('slider_id', $this->post['slider_id']);
+	}
+	
+	public function create_parallax(){
+		$this->isAjax = true;
+		list($content, $sliders) = $this->createContent($this->post['slider_id'], 'parallax');
+		$this->assign('slides_body', $content);
+		$this->assign('slider_id', $this->post['slider_id']);
+	}
+	
+	public function create_bootstrap(){
+		$this->isAjax = true;
+		list($content, $sliders) = $this->createContent($this->post['slider_id'], 'bootstrap');
+		$this->assign('slides_body', $content);
+		$this->assign('slider_id', $this->post['slider_id']);
 	}
 
 	public function select_slider($content=array(), $col=0){
@@ -109,14 +116,17 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		$this->assign('slide_content', $content);
 	}
 	
-	public function add_parallax_slide($slide='', $title='', $link=''){
+	public function add_parallax_slide($slide='', $title='', $num=''){
 		if(!$slide){
 			$this->isAjax = true;
 			$slide_id = $this->post['slide_id'];
+			$slide_num = $this->post['slide_num'];
 		}else{
 			$this->isAjax = false;
 			$slide_id = $slide;
+			$slide_num = $num;
 		}
+		$this->assign('slide_num', $slide_num);
 		$this->assign('slide_id', $slide_id);
 		$this->assign('slide_title', $title);
 		$this->assign('slide_link', $link);
@@ -151,9 +161,46 @@ class AdminSliderController extends \CpPressOnePage\Controller{
 		if(isset($_POST['cp-press-slider'])){
 			if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
 				return;
-
 			update_post_meta($post_id, 'cp-press-slider', $_POST['cp-press-slider']);
 		}
+	}
+	
+	private function createContent($id, $type=''){
+		$sliders = $this->PostMeta->find(array($id, 'cp-press-slider'));
+		if($type != ''){
+			$sliders['type'] = $type;
+		}
+		$content = '';
+		if(!empty($sliders)){
+			$num = 0;
+			foreach($sliders as $key => $slide){
+				if(!is_string($key)){
+					if($type != ''){
+						if($slide['action'] == 'add_parallax_bg' && $type != 'parallax'){
+							continue;
+						}
+						if($type == 'cppress'){
+							$slide['action'] = 'add_slide';
+						}else if($slide['action'] != 'add_parallax_bg'){
+							$slide['action'] = 'add_'.$type.'_slide';
+						}
+					}
+					$params = array($slide['id']);
+					if(isset($slide['title']))
+						array_push($params, $slide['title']);
+					if(isset($slide['content']))
+						array_push ($params, $slide['content']);
+					if(isset($slide['link']))
+						array_push ($params, $slide['link']);
+					if($slide['action'] == 'add_parallax_slide'){
+						array_push($params, $num++);
+					}
+					$content .= CpSlider::dispatch_template('AdminSlider', $slide['action'], $params);
+				}
+			}
+		}
+		
+		return array($content, $sliders);
 	}
 
 }

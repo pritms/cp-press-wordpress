@@ -89,6 +89,7 @@ class CpOnePage {
 			'has_archive'		=> false,
 			'taxonomies'		=> array(),
 			'supports'			=> array('title'),
+			'menu_icon'			=> 'dashicons-exerpt-view',
 			'show_in_nav_menus'	=> true,
 			'labels'			=> array(
 				'name'					=> 'Sections',
@@ -116,6 +117,7 @@ class CpOnePage {
 		if(is_admin()){
 			wp_register_script( 'jquery-ui', plugins_url('js/jquery-ui.js', __FILE__), false, '1.10.4');
 			wp_register_script( 'form-validator', plugins_url('js/form-validator.js', __FILE__));
+			wp_register_script( 'cp-press-dragbg', plugins_url('js/cp-press-dragbg.js', __FILE__));
 			wp_register_script( 'cp-press-admin', plugins_url('js/cp-press-admin.js', __FILE__), false, '1.0.0');
 			wp_register_style( 'jquery-ui', plugins_url('css/jquery-ui-smoothness.css', __FILE__));
 			wp_register_style( 'cp-press-admin', plugins_url('css/cp-press-admin.css', __FILE__));

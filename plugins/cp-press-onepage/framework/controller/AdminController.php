@@ -31,6 +31,7 @@
 namespace CpPressOnePage;
 use CpPressEvent;
 import('controller.AdminSectionController');
+import('controller.AdminLinkController');
 class AdminController extends Controller{
 	
 	protected $uses = array('Settings', 'HeaderSettings');
@@ -55,7 +56,7 @@ class AdminController extends Controller{
 				'post' => 'Post Layout',
 				'page' => 'Page Layout',
 				'sidebar' => 'Sidebar Layout',
-				'text'	=> 'Simple Text Layout',
+				'text'	=> 'Text Box Layout',
 				'navigation' => 'Navigation layout',
 				'type' => 'Single Post Type Layout',
 				'media' => 'Media Layout'
@@ -112,6 +113,18 @@ class AdminController extends Controller{
 		add_action('wp_ajax_add_media_content', function(){
 			CpOnePage::dispatch('AdminContentType', 'add_media_content');
 		});
+		add_action('wp_ajax_add_faicon_modal', function(){
+			CpOnePage::dispatch('AdminContentType', 'faicon_modal');
+		});
+		add_action('wp_ajax_add_link_modal', function(){
+			CpOnePage::dispatch('AdminLink', 'modal');
+		});
+		add_action('wp_ajax_process_link', function(){
+			CpOnePage::dispatch('AdminLink', 'process');
+		});
+		add_action('wp_ajax_delete_link', function(){
+			CpOnePage::dispatch('AdminLink', 'delete');
+		});
 		add_filter('manage_section_posts_columns' , function(){
 			return CpOnePage::dispatch_method('AdminSection', 'section_columns', func_get_args());
 		});
@@ -134,6 +147,7 @@ class AdminController extends Controller{
 		wp_enqueue_script('quicktags');
 		wp_enqueue_script('wp-color-picker');
 		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script('cp-press-dragbg');
 		wp_enqueue_script('cp-press-admin');
 		wp_enqueue_script('media-upload');
 		wp_enqueue_script('thickbox');
@@ -142,6 +156,7 @@ class AdminController extends Controller{
 		wp_enqueue_script('jquery-ui');
 		wp_enqueue_style('jquery-ui');
 		wp_enqueue_style('entypo-icon');
+		wp_enqueue_style('font-awesome');
 		wp_enqueue_style('cp-press-admin');
 		add_thickbox();
 		
@@ -200,15 +215,7 @@ class AdminController extends Controller{
 			'section', 
 			'advanced'
 		);
-		add_meta_box(
-			'cp-press-section-subtitle', 
-			'Sotto titolo', 
-			function($post, $box){
-				CpOnePage::dispatch('AdminSection', 'sub_title', array($post, $box));
-			},
-			'section', 
-			'advanced'
-		);
+		$this->add_custom_subtitle('section');
 		add_meta_box(
 			'cp-press-post-settings', 
 			'View options', 
@@ -221,8 +228,33 @@ class AdminController extends Controller{
 		);
 	}
 	
+	public function add_custom_link_meta($type){
+		add_meta_box(
+			'cp-press-link',
+			'Link',
+			function($post, $box){
+				CpOnePage::dispatch('AdminLink', 'create', array($post, $box));
+			},
+			$type,
+			'advanced'
+		);
+	}
+	
+	public function add_custom_subtitle($type){
+		add_meta_box(
+			'cp-press-section-subtitle', 
+			'Sotto titolo', 
+			function($post, $box){
+				CpOnePage::dispatch('AdminSection', 'sub_title', array($post, $box));
+			},
+			$type, 
+			'advanced'
+		);
+	}
+	
 	public function save_post($post_id, $post, $update){
 		AdminSectionController::save($post_id);
+		AdminLinkController::save($post_id);
 	}
 	
 	public function media_upload_image(){

@@ -42,6 +42,7 @@ class CpEvent extends CpOnePage{
 			'has_archive'	=> false,
 			'taxonomies'	=> array(),
 			'supports'		=> array('title', 'editor', 'thumbnail', 'excerpt'),
+			'menu_icon'		=> 'dashicons-calendar',
 			'labels'		=> array(
 				'name'					=> 'Events',
 				'singular_name'			=> 'Event',

@@ -6,7 +6,15 @@
  */
 namespace CpPressOnePage;
 import('model.PostType');
+import('model.PostMeta');
+import('util.Set');
 class Section extends PostType{
+	
+	private $PostMeta;
+	
+	public function __construct(){
+		$this->PostMeta = new PostMeta();
+	}
 	
 }
 ?>

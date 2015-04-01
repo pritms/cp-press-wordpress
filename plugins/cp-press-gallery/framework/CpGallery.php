@@ -42,6 +42,7 @@ class CpGallery extends CpOnePage{
 			'has_archive'	=> false,
 			'taxonomies'	=> array(),
 			'supports'		=> array('title', 'thumbnail', 'excerpt'),
+			'menu_icon'		=> 'dashicons-format-gallery',
 			'labels'		=> array(
 				'name'					=> 'Galleries',
 				'singular_name'			=> 'Gallery',
